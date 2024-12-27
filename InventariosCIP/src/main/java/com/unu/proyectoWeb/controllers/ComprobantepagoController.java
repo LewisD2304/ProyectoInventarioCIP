@@ -101,39 +101,55 @@ public class ComprobantepagoController extends HttpServlet {
 	}
 
 	private void insertar(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		try {
-			Comprobantepago cp = new Comprobantepago();
+	        throws ServletException, IOException {
+	    try {
+	        Comprobantepago cp = new Comprobantepago();
 
-			String idMedioPago = request.getParameter("idmediopago");
-			String idTipoComprobante = request.getParameter("idtipocomprobante");
-			String numero = request.getParameter("numero");
+	        // Obtener los valores del formulario
+	        String idMedioPago = request.getParameter("idmediopago");
+	        String idTipoComprobante = request.getParameter("idtipocomprobante");
+	        String numero = request.getParameter("numero");
 
-	
-			cp.setIdtipoComprobante(idTipoComprobante);
-			cp.setNumero(numero);
+	        // Validar y asignar el medio de pago
+	        if (idMedioPago != null && !idMedioPago.isEmpty()) {
+	            cp.setIdmediopago(idMedioPago);
+	        } else {
+	            request.getSession().setAttribute("fracaso", "Debe seleccionar un medio de pago.");
+	            response.sendRedirect(request.getContextPath() + "/BienesController?op=agregar");
+	            return;
+	        }
 
-			// Solo asignar el medio de pago si está presente
-			if (idMedioPago != null && !idMedioPago.isEmpty()) {
-				cp.setIdmediopago(idMedioPago);
-			}
+	        // Validar y asignar el tipo de comprobante (si aplica)
+	        if (idTipoComprobante != null && !idTipoComprobante.isEmpty()) {
+	            cp.setIdtipoComprobante(idTipoComprobante);
+	        } else {
+	            cp.setIdtipoComprobante(null); // Permitir nulo si no se selecciona comprobante
+	        }
 
-			// Insertar en la base de datos
-			if (modelo.insertarComprobante(cp) > 0) {
-				request.getSession().setAttribute("exito", "Comprobante de pago registrado exitosamente");
-			} else {
-				request.getSession().setAttribute("fracaso",
-						"El Comprobante de pago no ha sido ingresado: ya existe un Medio de pago con este código.");
-			}
+	        // Validar y asignar el número de comprobante (si aplica)
+	        if (numero != null && !numero.isEmpty()) {
+	            cp.setNumero(numero);
+	        } else {
+	            cp.setNumero(null); // Permitir nulo si no se ingresa número
+	        }
 
-			// Redirigir al usuario después de insertar
-			response.sendRedirect(request.getContextPath() + "/BienesController?op=agregar");
+	        // Insertar en la base de datos
+	        if (modelo.insertarComprobante(cp) > 0) {
+	            request.getSession().setAttribute("exito", "Comprobante de pago registrado exitosamente");
+	        } else {
+	            request.getSession().setAttribute("fracaso",
+	                    "El Comprobante de pago no ha sido ingresado: ya existe un Medio de pago con este código.");
+	        }
 
-		} catch (IOException | SQLException ex) {
-			ex.printStackTrace();
-			response.sendRedirect(request.getContextPath() + "/error.jsp");
-		}
+	        // Redirigir al usuario después de insertar
+	        response.sendRedirect(request.getContextPath() + "/BienesController?op=agregar");
+
+	    } catch (IOException | SQLException ex) {
+	        ex.printStackTrace();
+	        response.sendRedirect(request.getContextPath() + "/error.jsp");
+	    }
 	}
+
 	/*
 	 * private void eliminar(HttpServletRequest request, HttpServletResponse
 	 * response) { try {

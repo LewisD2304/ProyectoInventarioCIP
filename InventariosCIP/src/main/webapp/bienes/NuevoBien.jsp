@@ -9,6 +9,7 @@
 <meta charset="UTF-8">
 <title>NUEVO BIEN</title>
 
+
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -78,7 +79,6 @@
 	}
 	}
 	%>
-
 
 	<%
 	//AÑADIR UN BOTON
@@ -265,7 +265,7 @@
 
 
 				</div>
-				<div class="col-md-4">
+				<<div class="col-md-4">
 					<label for="idcategorias" class="form-label">Categoría</label> <select
 						id="idcategorias" name="idcategoriass" class="form-select">
 						<option value="" selected disabled>Seleccionar Categoría</option>
@@ -376,8 +376,6 @@
 				</div>
 
 			</form>
-
-
 
 
 		</div>

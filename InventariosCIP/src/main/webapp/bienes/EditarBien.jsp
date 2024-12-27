@@ -114,34 +114,34 @@
 						class="form-control" name="descripcion" id="descripcion"
 						value="<%=bienes.getDescripcion()%>" placeholder="Descripcion">
 				</div>
-				<div class="col-md-4">
-					<label for="idcategoriass" class="form-label">Categoría</label> <select
-						id="idcategoriass" name="idcategoriass" class="form-select">
-						<option value="" selected disabled>Seleccionar Categoría</option>
-						<%
-						List<Categorias> listacategorias = (List<Categorias>) request.getAttribute("NuevoBien");
-						%>
-						<%
-						if (listacategorias != null && !listacategorias.isEmpty()) {
-						%>
-						<%
-						for (Categorias categoria : listacategorias) {
-						%>
-						<option value="<%=categoria.getIdcategorias()%>"
-							<%=(categoria.getIdcategorias() == bienes.getIdcategoriass()) ? "selected" : ""%>>
-							<%=categoria.getNombreCategoria()%>
-						</option>
-						<%
-						}
-						%>
-						<%
-						} else {
-						%>
-						<option disabled>No hay categorías disponibles</option>
-						<%
-						}
-						%>
-					</select>
+								<div class="col-md-4">
+					<label for="idcategoriass" class="form-label">Categoría</label>
+<select id="idcategoriass" name="idcategoriass" class="form-select">
+    <option value="" selected disabled>Seleccionar Categoría</option>
+    <%
+    List<Categorias> listacategorias = (List<Categorias>) request.getAttribute("NuevoBien");
+    %>
+    <%
+    if (listacategorias != null && !listacategorias.isEmpty()) {
+        for (Categorias categoria : listacategorias) {
+            boolean isSelected = categoria.getIdcategorias() == bienes.getIdcategoriass();
+    %>
+            <!-- Mostrar el valor de cada comparación en la consola -->
+            
+            <option value="<%=categoria.getIdcategorias()%>"
+                <%= isSelected ? "selected" : "" %>>
+                <%=categoria.getNombreCategoria()%>
+            </option>
+    <%
+        }
+    } else {
+    %>
+        <option disabled>No hay categorías disponibles</option>
+    <%
+    }
+    %>
+</select>
+
 				</div>
 				<div class="col-md-4">
 					<label for="idproveedores" class="form-label">Proveedores</label> <select
@@ -155,7 +155,14 @@
 						%>
 						<%
 						for (Proveedores proveedor : listaproveedor) {
+				            boolean isSelected = proveedor.getIdproveedores() == bienes.getIdproveedoress();
+
 						%>
+						<script>
+                console.log("Comparación: proveedor.getIdproveedores() = <%= proveedor.getIdproveedores() %>, " +
+                            "bienes.getIdproveedoress() = <%= bienes.getIdproveedoress() %>, " +
+                            "Resultado: <%= isSelected %>");
+            </script>
 						<option value="<%=proveedor.getIdproveedores()%>"
 							<%=(proveedor.getIdproveedores() == bienes.getIdproveedoress()) ? "selected" : ""%>>
 							<%=proveedor.getNombreprov()%>

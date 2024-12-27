@@ -24,7 +24,7 @@ public class BienesModel extends Conexion {
 			while (rs.next()) {
 				Bienes bienes = new Bienes();
 				bienes.setIdbienes(rs.getInt("idbienes"));
-				;
+				bienes.setVerificar(rs.getInt("verificar"));
 				bienes.setCodigoBien(rs.getString("codigoBien"));
 				bienes.setNombrebien(rs.getString("nombrebien"));
 				bienes.setMarca(rs.getString("marca"));
@@ -86,6 +86,27 @@ public class BienesModel extends Conexion {
 			this.cerrarConexion();
 			return 0;
 		}
+	}
+	
+	public int actualizarEstadoCheckbox(int idBien, int nuevoEstado) throws SQLException {
+	    try {
+	        int filasAfectadas = 0;
+
+	        String sql = "CALL sp_verificar(?, ?)";
+	        this.abrirConexion();
+	        cs = conexion.prepareCall(sql);
+	        cs.setInt(1, nuevoEstado);
+	        cs.setInt(2, idBien); 
+
+	        filasAfectadas = cs.executeUpdate();
+	        this.cerrarConexion();
+	        return filasAfectadas; 
+
+	    } catch (Exception e) {
+	        System.out.println(e.getMessage()); 
+	        this.cerrarConexion();
+	        return 0; 
+	    }
 	}
 
 	public List<Categorias> listarCategorias() throws SQLException {
@@ -287,7 +308,7 @@ public class BienesModel extends Conexion {
 			while (rs.next()) {
 				Bienes bienes = new Bienes();
 				bienes.setIdbienes(rs.getInt("idbienes"));
-				;
+				bienes.setVerificar(rs.getInt("verificar"));
 				bienes.setCodigoBien(rs.getString("codigoBien"));
 				bienes.setNombrebien(rs.getString("nombrebien"));
 				bienes.setMarca(rs.getString("marca"));
@@ -324,13 +345,15 @@ public class BienesModel extends Conexion {
 			rs = cs.executeQuery();
 			if (rs.next()) {
 				bienes.setIdbienes(rs.getInt("idbienes"));
-				;
 				bienes.setCodigoBien(rs.getString("codigoBien"));
 				bienes.setNombrebien(rs.getString("nombrebien"));
 				bienes.setMarca(rs.getString("marca"));
 				bienes.setModelo(rs.getString("modelo"));
 				bienes.setNroSerie(rs.getString("nroSerie"));
 				bienes.setIdcategorias(rs.getString("nombreCategoria"));
+				bienes.setIdcategoriass(Integer.parseInt(rs.getString("idcategorias")));
+				bienes.setIdproveedoress(Integer.parseInt(rs.getString("idproveedores")));
+				bienes.setIdresponsables(Integer.parseInt(rs.getString("idresponsable")));
 				bienes.setIdresponsable(rs.getString("nombreResponsable"));
 				bienes.setNombreArea(rs.getString("nombreAreas"));
 				bienes.setIdproveedores(rs.getString("nombreprov"));
@@ -349,34 +372,54 @@ public class BienesModel extends Conexion {
 	}
 
 	public int modificarBienes(Bienes bienes) throws SQLException {
-		try {
-			int filasAfectadas = 0;
-			String sql = "CALL sp_editarBienes(?,?,?,?,?,?,?,?,?,?,?,?,?)";
-			this.abrirConexion();
-			cs = conexion.prepareCall(sql);
-			cs.setInt(1, bienes.getIdbienes());
-			cs.setString(2, bienes.getNombrebien());
-			cs.setString(3, bienes.getMarca());
-			cs.setString(4, bienes.getModelo());
-			cs.setString(5, bienes.getNroSerie());
-			cs.setString(6, bienes.getFechaAdquisicion());
-			cs.setString(7, bienes.getValorCompra());
-			cs.setInt(8, bienes.getEstado());
-			cs.setString(9, bienes.getDescripcion());
-			cs.setString(10, bienes.getCodigoBien());
-			cs.setString(11, bienes.getIdcategorias());
-			cs.setString(12, bienes.getIdproveedores());
-			cs.setString(13, bienes.getIdresponsable());
-			filasAfectadas = cs.executeUpdate();
-			this.cerrarConexion();
-			return filasAfectadas;
+	    try {
+	        int filasAfectadas = 0;
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-			this.cerrarConexion();
-			return 0;
-		}
+	        // Imprimir el estado de 'bienes' en la consola
+	        System.out.println("Estado del objeto Bienes antes de la modificación:");
+	        System.out.println("ID: " + bienes.getIdbienes());
+	        System.out.println("Nombre: " + bienes.getNombrebien());
+	        System.out.println("Marca: " + bienes.getMarca());
+	        System.out.println("Modelo: " + bienes.getModelo());
+	        System.out.println("Número de Serie: " + bienes.getNroSerie());
+	        System.out.println("Fecha de Adquisición: " + bienes.getFechaAdquisicion());
+	        System.out.println("Valor de Compra: " + bienes.getValorCompra());
+	        System.out.println("Estado: " + bienes.getEstado());
+	        System.out.println("Descripción: " + bienes.getDescripcion());
+	        System.out.println("Código del Bien: " + bienes.getCodigoBien());
+	        System.out.println("ID Categoría: " + bienes.getIdcategorias());
+	        System.out.println("ID Proveedores: " + bienes.getIdproveedores());
+	        System.out.println("ID Responsable: " + (bienes.getIdresponsable().isEmpty() ? "0" : bienes.getIdresponsable()));
+	        System.out.println("ID Comprobante: " + bienes.getIdcomprobante());
+
+	        String sql = "CALL sp_editarBienes(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	        this.abrirConexion();
+	        cs = conexion.prepareCall(sql);
+	        cs.setInt(1, bienes.getIdbienes());
+	        cs.setString(2, bienes.getNombrebien());
+	        cs.setString(3, bienes.getMarca());
+	        cs.setString(4, bienes.getModelo());
+	        cs.setString(5, bienes.getNroSerie());
+	        cs.setString(6, bienes.getFechaAdquisicion());
+	        cs.setString(7, bienes.getValorCompra());
+	        cs.setInt(8, bienes.getEstado());
+	        cs.setString(9, bienes.getDescripcion());
+	        cs.setString(10, bienes.getCodigoBien());
+	        cs.setString(11, bienes.getIdcategorias());
+	        cs.setString(12, bienes.getIdproveedores());
+	        cs.setString(13, bienes.getIdresponsable().isEmpty() ? "0" : bienes.getIdresponsable());
+	        cs.setString(14, bienes.getIdcomprobante());
+	        filasAfectadas = cs.executeUpdate();
+	        this.cerrarConexion();
+	        return filasAfectadas;
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        this.cerrarConexion();
+	        return 0;
+	    }
 	}
+
 
 	public List<Bienes> buscarNombre(String buscar) throws SQLException {
 		try {
@@ -389,13 +432,18 @@ public class BienesModel extends Conexion {
 			while (rs.next()) {
 				Bienes bienes = new Bienes();
 				bienes.setIdbienes(rs.getInt("idbienes"));
-				;
+				bienes.setVerificar(rs.getInt("verificar"));
 				bienes.setCodigoBien(rs.getString("codigoBien"));
 				bienes.setNombrebien(rs.getString("nombrebien"));
 				bienes.setMarca(rs.getString("marca"));
 				bienes.setModelo(rs.getString("modelo"));
 				bienes.setNroSerie(rs.getString("nroSerie"));
 				bienes.setIdcategorias(rs.getString("nombreCategoria"));
+				
+				bienes.setIdcategoriass(Integer.parseInt(rs.getString("idcategorias")));
+				bienes.setIdresponsables(Integer.parseInt(rs.getString("idresponsable")));
+				bienes.setIdproveedoress(Integer.parseInt(rs.getString("idproveedores")));
+				
 				bienes.setIdresponsable(rs.getString("nombreResponsable"));
 				bienes.setNombreArea(rs.getString("nombreAreas"));
 				bienes.setIdproveedores(rs.getString("nombreprov"));

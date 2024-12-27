@@ -5,9 +5,8 @@ public class Responsable {
 	private String nombreResponsable;
 	private String cargo;
 	private String telefono;
-	private String correo;
-	private String estado; 
 	private String idarea;
+	private int idareas;
 	
 	
 	
@@ -18,15 +17,26 @@ public class Responsable {
 
 
 	public Responsable(int idresponsable, String nombreResponsable, String cargo, String telefono, String correo,
-			String estado, String idarea) {
+			String estado, String idarea, int idareas) {
 		super();
 		this.idresponsable = idresponsable;
 		this.nombreResponsable = nombreResponsable;
 		this.cargo = cargo;
 		this.telefono = telefono;
-		this.correo = correo;
-		this.estado = estado;
 		this.idarea = idarea;
+		this.idareas = idareas;
+	}
+
+
+
+	public int getIdareas() {
+		return idareas;
+	}
+
+
+
+	public void setIdareas(int idareas) {
+		this.idareas = idareas;
 	}
 
 
@@ -75,30 +85,6 @@ public class Responsable {
 
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
-	}
-
-
-
-	public String getCorreo() {
-		return correo;
-	}
-
-
-
-	public void setCorreo(String correo) {
-		this.correo = correo;
-	}
-
-
-
-	public String getEstado() {
-		return estado;
-	}
-
-
-
-	public void setEstado(String estado) {
-		this.estado = estado;
 	}
 
 

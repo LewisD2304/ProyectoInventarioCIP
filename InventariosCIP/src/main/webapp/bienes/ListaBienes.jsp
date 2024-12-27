@@ -164,11 +164,47 @@
         tableContainer.scrollTop = 0; // Ir al inicio
     }
 </script>
+
+
+
 <script>
 		function eliminar(id) {
 			if (confirm("¿Desea eliminar el registro?") == true) {
 				location.href = "BienesController?op=eliminar&id=" + id;
 			}
+		}
+		
+		function updateCheckboxState(idBien, isChecked) {
+		    let nuevoEstado = 0;
+			
+		    if(isChecked == 0 || isChecked == null){
+		    	nuevoEstado = 1;
+		    }else{
+		    	nuevoEstado = 0;
+		    }
+		    
+		    // Realizar una solicitud AJAX para actualizar el estado
+		    var url = "BienesController?op=actualizarEstadoCheckbox&idBien="+idBien+"&nuevoEstado="+nuevoEstado;
+		    
+		    fetch(url, {
+		        method: "GET",
+		    })
+		    .then(response => response.json())
+		    .then(data => {
+		        if (data.success) {
+		            alert("Estado actualizado correctamente.");
+		        } else {
+		            alert("Error al actualizar el estado.");
+		            // Restablecer el checkbox a su estado anterior en caso de error
+		            document.getElementById(`checkbox_${idBien}`).checked = !isChecked;
+		        }
+		    })
+		    .catch(error => {
+		        console.error("Error en la solicitud:", error);
+		        alert("Error al actualizar el estadoooooo.");
+		        // Restablecer el checkbox a su estado anterior en caso de error
+		        document.getElementById(`checkbox_${idBien}`).checked = !isChecked;
+		    });
 		}
 		
 </script>
@@ -183,68 +219,82 @@
 		<%@ include file='/cabeceramenu.jsp'%>
 	</div>
 	<br>
-	<div class="container">
-		<H1>REGISTRO DE BIENES</H1>
-	</div>
-
-
 
 	<%
 	String url = "http://localhost:8080/InventariosCIP/";
 	%>
+
+	<div class="bg-secondary-subtle p-3 rounded shadow-sm"
+		style="margin-top: -30px;">
+		<div class="container">
+			<h1 class="m-0">REGISTRO DE BIENES</h1>
+		</div>
+
+		<div class="container">
+			<div class="d-flex justify-content-end mb-2">
+				<a class="btn btn-success d-flex align-items-center"
+					href="<%=url%>BienesController?op=agregar"> <svg
+						xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+						fill="currentColor" class="bi bi-plus-square me-1"
+						viewBox="0 0 16 16">
+                    <path
+							d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                    <path
+							d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                </svg> Añadir Bienes
+				</a>
+			</div>
+		</div>
+	</div>
+
 	<br>
+
 	<nav class="navbar bg-body-tertiary">
-		<div class="container ">
-			<form class="d-flex ms-auto w-40" role="search"
+		<div class="container d-flex justify-content-end align-items-center">
+			<div class="col-md-3">
+				<form id="form-areas" action="BienesController" method="GET"
+					class="d-flex">
+					<label for="idareas" class="control me-2"> </label> <select
+						id="idareas" name="buscar" class="form-select me-2"
+						onchange="this.form.submit()">
+						<option>Busqueda por Área</option>
+						<%
+						List<Area> listaAreas = (List<Area>) request.getAttribute("ListaAreas");
+						if (listaAreas != null && !listaAreas.isEmpty()) {
+							for (Area area : listaAreas) {
+						%>
+						<option value="<%=area.getIdarea()%>">
+							<%=area.getNombreAreas()%>
+						</option>
+						<%
+						}
+						} else {
+						%>
+						<option disabled>No hay áreas disponibles</option>
+						<%
+						}
+						%>
+					</select> <input type="hidden" name="op" value="buscar">
+				</form>
+			</div>
+
+			<form class="d-flex me-1" role="search"
 				action="<%=url%>BienesController?op=buscarXnombre" method="GET">
-				<input class="form-control me-4" type="search" name="buscar"
+				<input class="form-control me-2" type="search" name="buscar"
 					id="buscar" placeholder="Buscar nombre del bien"
 					aria-label="buscar">
 				<button class="btn btn-outline-success" type="submit" name="op"
-					value="buscarXnombre">Buscar</button>
+					value="buscarXnombre">
+					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+						fill="currentColor" class="bi bi-search" viewBox="0 0 18 18">
+  <path
+							d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+</svg>
+				</button>
 			</form>
+
 		</div>
 	</nav>
-
-	<div class="col-md-2"
-		style="position: absolute; left: 650px; top: 143px;">
-		<form id="form-areas" action="BienesController" method="GET">
-			<label for="idareas" class="d-flex ms-auto">Seleccionar Área</label>
-			<select id="idareas" name="buscar" class="form-select"
-				onchange="this.form.submit()">
-				<option>Seleccionar Área</option>
-				<%
-				List<Area> listaAreas = (List<Area>) request.getAttribute("ListaAreas");
-				if (listaAreas != null && !listaAreas.isEmpty()) {
-					for (Area area : listaAreas) {
-				%>
-				<option value="<%=area.getIdarea()%>">
-					<%=area.getNombreAreas()%>
-				</option>
-				<%
-				}
-				} else {
-				%>
-				<option disabled>No hay áreas disponibles</option>
-				<%
-				}
-				%>
-			</select> <input type="hidden" name="op" value="buscar">
-		</form>
-	</div>
-
-
-	<div class="container">
-		<p class="d-inline-flex gap-1" style="margin-top: 5px;">
-			<a class="btn btn-primary" role="button" aria-expanded="false"
-				type="button" href="<%=url%>BienesController?op=agregar"> Añadir
-				Bienes </a>
-		</p>
-	</div>
-
-
-	<br>
-
 
 
 	<div class="container-custom">
@@ -254,27 +304,47 @@
 				<div class="card shadow-2-strong" style="background-color: #f5f7fa;">
 					<div class="card-body">
 						<div class="table-responsive">
-							<div class="d-flex justify-content-end mb-2">
-								<button class="btn btn-secondary p-1" onclick="scrollToStart()">
-									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-										fill="currentColor" class="bi bi-arrow-up-circle-fill"
-										viewBox="0 0 16 16">
-            <path
-											d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z" />
-        </svg>
-								</button>
+							<div
+								class="d-flex justify-content-between align-items-center mb-2">
+								<div class="d-flex">
+									<button class="btn btn-secondary p-1" onclick="scrollToStart()">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+											fill="currentColor" class="bi bi-arrow-up-circle-fill"
+											viewBox="0 0 16 16">
+                							<path
+												d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z" />
+            							</svg>
+									</button>
+
+									<button class="btn btn-secondary p-1 ms-2"
+										onclick="scrollToEnd()">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+											fill="currentColor" class="bi bi-arrow-down-circle-fill"
+											viewBox="0 0 16 16">
+                							<path
+												d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293z" />
+          							  </svg>
+									</button>
+								</div>
+
+								<p class="d-inline-flex">
+									<a class="btn btn-dark p-0" role="button" aria-expanded="false"
+										type="button" href="<%=url%>BienesController?op=listar"><svg
+											xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+											fill="currentColor" class="bi bi-arrow-clockwise"
+											viewBox="0 0 16 16">
+ 												 <path fill-rule="evenodd"
+												d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z" />
+ 												 <path
+												d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" />
+</svg> </a>
+								</p>
 
 
-								<button class="btn btn-secondary p-1 ms-2"
-									onclick="scrollToEnd()">
-									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-										fill="currentColor" class="bi bi-arrow-down-circle-fill"
-										viewBox="0 0 16 16">
-  <path
-											d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293z" />
-</svg>
-								</button>
 							</div>
+
+
+
 							<div id="tableContainer"
 								style="overflow-y: auto; max-height: 500px; border: 1px;">
 								<table class="table table-borderless mb-0;table table-hover"
@@ -283,6 +353,7 @@
 										style="position: sticky; top: 0; background-color: #ffffff; z-index: 1;">
 										<tr>
 											<th>N°</th>
+											<th>VERIFICACION</th>
 											<th>CODIGO</th>
 											<th>NOMBRE DEL BIEN</th>
 											<th>MARCA</th>
@@ -310,24 +381,36 @@
 										%>
 										<tr>
 											<td><%=bienes.getIdbienes()%></td>
-											<td><%=bienes.getCodigoBien()%></td>
-											<td><%=bienes.getNombrebien()%></td>
-											<td><%=bienes.getMarca()%></td>
-											<td><%=bienes.getModelo()%></td>
-											<td><%=bienes.getNroSerie()%></td>
-											<td><%=bienes.getIdcategorias()%></td>
-											<td><%=bienes.getIdresponsable()%></td>
-											<td><%=bienes.getNombreArea()%></td>
+											<td>
+												<div
+													class="form-check d-flex justify-content-center align-items-center">
+													<input class="form-check-input" type="checkbox"
+														value="<%=bienes.getIdbienes()%>"
+														id="checkbox_<%=bienes.getIdbienes()%>"
+														<%=bienes.getVerificar() == 1 ? "checked" : ""%>
+														onchange="updateCheckboxState(<%=bienes.getIdbienes()%>, <%=bienes.getVerificar() == 1%>)">
+													<label class="form-check-label"
+														for="checkbox_<%=bienes.getIdbienes()%>"></label>
+												</div>
+											</td>
+											<td><%=(bienes.getCodigoBien() != null && !bienes.getCodigoBien().isEmpty()) ? bienes.getCodigoBien() : "N/A"%></td>
+											<td><%=(bienes.getNombrebien() != null && !bienes.getNombrebien().isEmpty()) ? bienes.getNombrebien() : "N/A"%></td>
+											<td><%=(bienes.getMarca() != null && !bienes.getMarca().isEmpty()) ? bienes.getMarca() : "N/A"%></td>
+											<td><%=(bienes.getModelo() != null && !bienes.getModelo().isEmpty()) ? bienes.getModelo() : "N/A"%></td>
+											<td><%=(bienes.getNroSerie() != null && !bienes.getNroSerie().isEmpty()) ? bienes.getNroSerie() : "N/A"%></td>
+											<td><%=(bienes.getIdcategorias() != null) ? bienes.getIdcategorias() : "N/A"%></td>
+											<td><%=(bienes.getIdresponsable() != null) ? bienes.getIdresponsable() : "N/A"%></td>
+											<td><%=(bienes.getNombreArea() != null && !bienes.getNombreArea().isEmpty()) ? bienes.getNombreArea() : "N/A"%></td>
 											<td><%=bienes.getEstado() == 1 ? "EN USO" : "INACTIVO"%></td>
-											<td><%=bienes.getIdproveedores()%></td>
-											<td><%=bienes.getFechaAdquisicion()%></td>
-											<td><%=bienes.getValorCompra()%></td>
+											<td><%=(bienes.getIdproveedores() != null) ? bienes.getIdproveedores() : "N/A"%></td>
+											<td><%=(bienes.getFechaAdquisicion() != null) ? bienes.getFechaAdquisicion() : "N/A"%></td>
+											<td><%=(bienes.getValorCompra() != null) ? bienes.getValorCompra() : "N/A"%></td>
 											<td>
 												<button class="btn btn-info btn-sm"
 													onclick="showDescription('<%=(bienes.getDescripcion() != null && !bienes.getDescripcion().isEmpty()) ? bienes.getDescripcion()
-		: "NO HAY DATOS"%>')">Ver</button>
+		: "NO HAY DATOS"%>')">
+													Ver</button>
 											</td>
-
 											<td>
 												<button class="btn btn-info btn-sm"
 													onclick="showComprobante('<%=(bienes.getNombreMedioPago() != null || bienes.getNumeroMedioPago() != null
@@ -342,31 +425,30 @@
 						+ (bienes.getNumeroComprobante() != null
 								? "Número de Comprobante: " + bienes.getNumeroComprobante() + "<br>"
 								: "")
-				: "NO HAY DATOS REGISTRADOS"%>')">Ver</button>
+				: "NO HAY DATOS REGISTRADOS"%>')">
+													Ver</button>
 											</td>
-
 											<td><a
 												href="<%=url%>BienesController?op=obtener&id=<%=bienes.getIdbienes()%>"
 												class="btn btn-outline-info btn-sm p-1"> <svg
 														xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 														fill="currentColor" class="bi bi-pencil-square"
 														viewBox="0 0 16 16">
-    							<path
+                <path
 															d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-   								<path fill-rule="evenodd"
-															d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
-  								</svg>
+                <path fill-rule="evenodd"
+															d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+            </svg>
 											</a> <a href="javascript:eliminar('<%=bienes.getIdbienes()%>')"
 												class="btn btn-outline-danger btn-sm p-1"> <svg
 														xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 														fill="currentColor" class="bi bi-trash"
 														viewBox="0 0 16 16">
- 								<path
+                <path
 															d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
-  								<path
+                <path
 															d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
-								</svg>
-
+            </svg>
 											</a></td>
 										</tr>
 										<%
@@ -426,13 +508,7 @@
 
 
 	<div class="container">
-		<div class="d-flex justify-content-end mb-3">
-			<p class="d-inline-flex gap-1">
-				<a class="btn btn-secondary" role="button" aria-expanded="false"
-					type="button" href="<%=url%>BienesController?op=listar">
-					Actualizar Tabla </a>
-			</p>
-		</div>
+		<div class="d-flex justify-content-end mb-3"></div>
 	</div>
 
 

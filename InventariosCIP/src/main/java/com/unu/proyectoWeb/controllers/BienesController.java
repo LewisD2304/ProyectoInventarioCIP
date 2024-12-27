@@ -80,6 +80,9 @@ public class BienesController extends HttpServlet {
 		case "modificar":
 			modificar(request, response);
 			break;
+		case "actualizarEstadoCheckbox":
+			actualizarEstadoCheckbox(request, response);
+			break;
 		}
 
 	}
@@ -245,6 +248,25 @@ public class BienesController extends HttpServlet {
 
 	}
 
+	private void actualizarEstadoCheckbox(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException {
+		try {
+			int idBien = Integer.parseInt(request.getParameter("idBien")); 
+			int nuevoEstado = Integer.parseInt(request.getParameter("nuevoEstado")); 
+			System.out.println("AO"+nuevoEstado);
+			
+			
+			boolean exito = modelo.actualizarEstadoCheckbox(idBien, nuevoEstado) > 0;
+
+			// Configura la respuesta como JSON
+			response.setContentType("application/json");
+			response.getWriter().write("{\"success\": " + exito + "}");
+
+		} catch (Exception ex) {
+			System.out.println(ex.getMessage());
+		}
+	}
+
 	private void eliminar(HttpServletRequest request, HttpServletResponse response) {
 		try {
 
@@ -296,6 +318,8 @@ public class BienesController extends HttpServlet {
 			String id = request.getParameter("id");
 			Bienes miBienes = modelo.obtenerBienes(Integer.parseInt(id));
 
+			System.out.print("wazaaa" + id);
+
 			if (miBienes != null) {
 
 				List<Categorias> categorias = modelo.listarCategorias();
@@ -315,6 +339,7 @@ public class BienesController extends HttpServlet {
 			}
 
 		} catch (Exception e) {
+			System.out.print("wazaaa" + e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -333,7 +358,7 @@ public class BienesController extends HttpServlet {
 			miBienes.setDescripcion(request.getParameter("descripcion"));
 			miBienes.setCodigoBien(request.getParameter("codigoBien"));
 			miBienes.setIdcategorias(request.getParameter("idcategoriass"));
-			miBienes.setIdproveedores(request.getParameter("idproveedoress"));
+			miBienes.setIdproveedores(request.getParameter("idproveedores"));
 			miBienes.setIdresponsable(request.getParameter("idresponsables"));
 
 			if (modelo.modificarBienes(miBienes) > 0) {

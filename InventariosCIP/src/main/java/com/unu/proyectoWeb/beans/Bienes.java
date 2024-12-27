@@ -2,6 +2,7 @@ package com.unu.proyectoWeb.beans;
 
 public class Bienes {
 	private int idbienes;
+	private int verificar;
 	private String nombrebien;
 	private String marca;
 	private String modelo;
@@ -29,14 +30,14 @@ public class Bienes {
 		super();
 	}
 
-	public Bienes(int idbienes, String nombrebien, String marca, String modelo, String nroSerie,
+	public Bienes(int idbienes, int verificar, String nombrebien, String marca, String modelo, String nroSerie,
 			String fechaAdquisicion, String valorCompra, int estado, String descripcion, String codigoBien,
 			String idcategorias, String idproveedores, String idresponsable, int idcategoriass, int idproveedoress,
 			int idresponsables, String nombreArea, String idcomprobante, int idcomprobantes, String nombreMedioPago,
 			String numeroMedioPago, String nombreTipoComprobante, String numeroComprobante) {
 		super();
 		this.idbienes = idbienes;
-		this.nombrebien = nombrebien;
+		this.verificar = verificar;
 		this.marca = marca;
 		this.modelo = modelo;
 		this.nroSerie = nroSerie;
@@ -60,11 +61,12 @@ public class Bienes {
 		this.numeroComprobante = numeroComprobante;
 	}
 
-	public Bienes(int idbienes, String nombrebien, String marca, String modelo, String nroSerie,
+	public Bienes(int idbienes, int verificar, String nombrebien, String marca, String modelo, String nroSerie,
 			String fechaAdquisicion, String valorCompra, int estado, String descripcion, String codigoBien,
 			String idcategorias, String idproveedores, String idresponsable, String nombreArea) {
 		super();
 		this.idbienes = idbienes;
+		this.verificar = verificar;
 		this.nombrebien = nombrebien;
 		this.marca = marca;
 		this.modelo = modelo;
@@ -80,12 +82,13 @@ public class Bienes {
 		this.nombreArea = nombreArea;
 	}
 
-	public Bienes(int idbienes, String nombrebien, String marca, String modelo, String nroSerie,
+	public Bienes(int idbienes, int verificar, String nombrebien, String marca, String modelo, String nroSerie,
 			String fechaAdquisicion, String valorCompra, int estado, String descripcion, String codigoBien,
 			String idcategorias, String idproveedores, String idresponsable, int idcategoriass, int idproveedoress,
 			int idresponsables, String nombreArea) {
 		super();
 		this.idbienes = idbienes;
+		this.verificar = verificar;
 		this.nombrebien = nombrebien;
 		this.marca = marca;
 		this.modelo = modelo;
@@ -102,6 +105,15 @@ public class Bienes {
 		this.idproveedoress = idproveedoress;
 		this.idresponsables = idresponsables;
 		this.nombreArea = nombreArea;
+	}
+
+	
+	public int getVerificar() {
+		return verificar;
+	}
+
+	public void setVerificar(int verificar) {
+		this.verificar = verificar;
 	}
 
 	public String getNombreMedioPago() {

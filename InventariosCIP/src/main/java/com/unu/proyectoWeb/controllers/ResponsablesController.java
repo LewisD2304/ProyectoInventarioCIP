@@ -41,7 +41,6 @@ public class ResponsablesController extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 
 		String operacion = request.getParameter("op");
-
 		if (operacion == null) {
 			listar(request, response);
 			return;
@@ -85,7 +84,6 @@ public class ResponsablesController extends HttpServlet {
 			throws IOException, ServletException {
 		try {
 			Responsable respon = new Responsable();
-			respon.setIdresponsable(Integer.parseInt(request.getParameter("id")));
 			respon.setNombreResponsable(request.getParameter("nombreResponsable"));
 			respon.setTelefono(request.getParameter("telefono"));
 			respon.setCargo(request.getParameter("cargo"));
@@ -151,8 +149,10 @@ public class ResponsablesController extends HttpServlet {
 	}
 
 	private void obtener(HttpServletRequest request, HttpServletResponse response) {
+		
 		try {
 			String id = request.getParameter("id");
+			
 			Responsable mirespon = modelo.obtenerResponsable(Integer.parseInt(id));
 
 			System.out.print("wazaaa responsablesssss" + id);
@@ -177,11 +177,11 @@ public class ResponsablesController extends HttpServlet {
 	private void modificar(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			Responsable miRespon = new Responsable();
-			miRespon.setIdresponsable(Integer.parseInt(request.getParameter("id")));
-			miRespon.setNombreResponsable(request.getParameter("nombreResponsable"));
-			miRespon.setTelefono(request.getParameter("telefono"));
-			miRespon.setCargo(request.getParameter("cargo"));
-			miRespon.setIdarea(request.getParameter("idareas"));
+			miRespon.setIdresponsable(Integer.parseInt(request.getParameter("idResponsablee")));
+			miRespon.setNombreResponsable(request.getParameter("nombreResponsablee"));
+			miRespon.setTelefono(request.getParameter("telefonoE"));
+			miRespon.setCargo(request.getParameter("cargoE"));
+			miRespon.setIdarea(request.getParameter("idareaE"));
 
 			if (modelo.modificarResponsable(miRespon) > 0) {
 				request.getSession().setAttribute("EXITO", "Responsable Modificado Correctamente");

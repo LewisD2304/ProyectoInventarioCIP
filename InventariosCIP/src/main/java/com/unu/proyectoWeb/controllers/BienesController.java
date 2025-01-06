@@ -318,20 +318,20 @@ public class BienesController extends HttpServlet {
 			String id = request.getParameter("id");
 			Bienes miBienes = modelo.obtenerBienes(Integer.parseInt(id));
 
-			System.out.print("wazaaa" + id);
-
 			if (miBienes != null) {
 
 				List<Categorias> categorias = modelo.listarCategorias();
 				List<Responsable> responsables = modelo.listarResponsables();
 				List<Area> areas = modelo.listarAreas();
 				List<Proveedores> proveedores = modelo.listarProveedores();
-
+				List<Comprobantepago> comprobante = modelo.listarComprobante();
+				
 				request.setAttribute("bienes", miBienes);
 				request.setAttribute("categorias", categorias);
 				request.setAttribute("responsables", responsables);
 				request.setAttribute("areas", areas);
 				request.setAttribute("proveedores", proveedores);
+				request.setAttribute("ListaComprobante", comprobante);
 
 				request.getRequestDispatcher("/bienes/EditarBien.jsp").forward(request, response);
 			} else {
@@ -360,7 +360,9 @@ public class BienesController extends HttpServlet {
 			miBienes.setIdcategorias(request.getParameter("idcategoriass"));
 			miBienes.setIdproveedores(request.getParameter("idproveedores"));
 			miBienes.setIdresponsable(request.getParameter("idresponsables"));
-
+			miBienes.setIdcomprobantes(Integer.parseInt(request.getParameter("idcomprobantes")));
+			System.out.println(Integer.parseInt(request.getParameter("idcomprobantes")));
+			
 			if (modelo.modificarBienes(miBienes) > 0) {
 				request.getSession().setAttribute("EXITO", "Bienes Modificado Correctamente");
 			} else {

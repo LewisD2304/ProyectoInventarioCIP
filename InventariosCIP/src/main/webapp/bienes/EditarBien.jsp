@@ -62,7 +62,8 @@
 			<h3>MODIFICAR BIEN DEL CIP</h3>
 			<form class="row g-3" action="<%=url%>BienesController" method="POST">
 
-				<input type="hidden" class="form-control" name="op" value="modificar"> <input type="hidden" name="id"
+				<input type="hidden" class="form-control" name="op"
+					value="modificar"> <input type="hidden" name="id"
 					value="<%=bienes.getIdbienes()%>" />
 				<div class="col-md-3">
 					<label class="form-label">Codigo Unico del Bien</label> <input
@@ -114,33 +115,33 @@
 						class="form-control" name="descripcion" id="descripcion"
 						value="<%=bienes.getDescripcion()%>" placeholder="Descripcion">
 				</div>
-								<div class="col-md-4">
-					<label for="idcategoriass" class="form-label">Categoría</label>
-<select id="idcategoriass" name="idcategoriass" class="form-select">
-    <option value="" selected disabled>Seleccionar Categoría</option>
-    <%
-    List<Categorias> listacategorias = (List<Categorias>) request.getAttribute("NuevoBien");
-    %>
-    <%
-    if (listacategorias != null && !listacategorias.isEmpty()) {
-        for (Categorias categoria : listacategorias) {
-            boolean isSelected = categoria.getIdcategorias() == bienes.getIdcategoriass();
-    %>
-            <!-- Mostrar el valor de cada comparación en la consola -->
-            
-            <option value="<%=categoria.getIdcategorias()%>"
-                <%= isSelected ? "selected" : "" %>>
-                <%=categoria.getNombreCategoria()%>
-            </option>
-    <%
-        }
-    } else {
-    %>
-        <option disabled>No hay categorías disponibles</option>
-    <%
-    }
-    %>
-</select>
+				<div class="col-md-4">
+					<label for="idcategoriass" class="form-label">Categoría</label> <select
+						id="idcategoriass" name="idcategoriass" class="form-select">
+						<option value="" selected disabled>Seleccionar Categoría</option>
+						<%
+						List<Categorias> listacategorias = (List<Categorias>) request.getAttribute("NuevoBien");
+						%>
+						<%
+						if (listacategorias != null && !listacategorias.isEmpty()) {
+							for (Categorias categoria : listacategorias) {
+								boolean isSelected = categoria.getIdcategorias() == bienes.getIdcategoriass();
+						%>
+						<!-- Mostrar el valor de cada comparación en la consola -->
+
+						<option value="<%=categoria.getIdcategorias()%>"
+							<%=isSelected ? "selected" : ""%>>
+							<%=categoria.getNombreCategoria()%>
+						</option>
+						<%
+						}
+						} else {
+						%>
+						<option disabled>No hay categorías disponibles</option>
+						<%
+						}
+						%>
+					</select>
 
 				</div>
 				<div class="col-md-4">
@@ -155,14 +156,14 @@
 						%>
 						<%
 						for (Proveedores proveedor : listaproveedor) {
-				            boolean isSelected = proveedor.getIdproveedores() == bienes.getIdproveedoress();
-
+							boolean isSelected = proveedor.getIdproveedores() == bienes.getIdproveedoress();
 						%>
 						<script>
-                console.log("Comparación: proveedor.getIdproveedores() = <%= proveedor.getIdproveedores() %>, " +
-                            "bienes.getIdproveedoress() = <%= bienes.getIdproveedoress() %>, " +
-                            "Resultado: <%= isSelected %>");
-            </script>
+                console.log("Comparación: proveedor.getIdproveedores() = <%=proveedor.getIdproveedores()%>, " +
+                            "bienes.getIdproveedoress() = <%=bienes.getIdproveedoress()%>, " +
+                            "Resultado: <%=isSelected%>
+							");
+						</script>
 						<option value="<%=proveedor.getIdproveedores()%>"
 							<%=(proveedor.getIdproveedores() == bienes.getIdproveedoress()) ? "selected" : ""%>>
 							<%=proveedor.getNombreprov()%>
@@ -204,6 +205,35 @@
 						} else {
 						%>
 						<option disabled>No hay responsable disponibles</option>
+						<%
+						}
+						%>
+					</select>
+				</div>
+				<div class="col-md-4">
+					<label for="idcomprobantes" class="form-label">Comprobante
+						de Pago</label> <select id="idcomprobantes" name="idcomprobantes"
+						class="form-select">s
+						<option value="" selected>Seleccionar</option>
+						<%
+						List<Comprobantepago> listarComprobante = (List<Comprobantepago>) request.getAttribute("ListaComprobante");
+
+						if (listarComprobante != null && !listarComprobante.isEmpty()) {
+							for (Comprobantepago comprobante : listarComprobante) {
+						%>
+						<option value="<%=comprobante.getIdcomprobantePago()%>"
+													<%=(comprobante.getIdcomprobantePago() == bienes.getIdcomprobantes()) ? "selected" : ""%>>
+						>
+							<%=comprobante.getIdmediopago() != null ? comprobante.getIdmediopago() : "-"%>
+							<%=comprobante.getNumeroMedioPago() != null ? comprobante.getNumeroMedioPago() : "-"%>
+							<%=comprobante.getIdtipoComprobante() != null ? comprobante.getIdtipoComprobante() : "-"%>
+							<%=comprobante.getNumero() != null ? comprobante.getNumero() : "-"%>
+						</option>
+						<%
+						}
+						} else {
+						%>
+						<option disabled>No hay Comprobante de pago disponibles</option>
 						<%
 						}
 						%>

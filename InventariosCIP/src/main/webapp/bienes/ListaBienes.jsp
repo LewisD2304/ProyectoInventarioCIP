@@ -83,8 +83,44 @@
 <style>
 .container-custom {
 	width: 100%; /* Ocupa el 80% del ancho del viewport */
-	max-width: 1250px; /* No excede los 1200px en pantallas grandes */
+	max-width: 1700px; /* No excede los 1200px en pantallas grandes */
 	margin: 0 auto; /* Centra el contenedor */
+}
+
+@media print {
+	/* Asegura que todo el contenido sea visible */
+	.table-responsive {
+		overflow: visible !important;
+	}
+
+	/* Elimina los saltos de página no deseados */
+	table {
+		page-break-inside: auto;
+	}
+
+	/* Permite que las filas se mantengan juntas */
+	tr {
+		page-break-inside: avoid;
+		page-break-after: auto;
+	}
+
+	/* Ajusta el tamaño del contenido al papel */
+	body {
+		margin: 0;
+		padding: 0;
+		width: 100%;
+	}
+
+	/* Asegura que las imágenes no excedan el ancho de la página */
+	img {
+		max-width: 100% !important;
+	}
+
+	/* Oculta elementos innecesarios para la impresión */
+	.no-print {
+		display: none !important;
+		  
+	}
 }
 </style>
 
@@ -300,12 +336,10 @@
 	<div class="container-custom">
 		<div class="row justify-content-center">
 			<div class="col-12">
-
 				<div class="card shadow-2-strong" style="background-color: #f5f7fa;">
 					<div class="card-body">
-						<div class="table-responsive">
-							<div
-								class="d-flex justify-content-between align-items-center mb-2">
+						<div class="table-responsive" id="table-responsive">
+							<div class="d-flex justify-content-between align-items-center mb-2">
 								<div class="d-flex">
 									<button class="btn btn-secondary p-1" onclick="scrollToStart()">
 										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -345,7 +379,7 @@
 
 
 
-							<div id="tableContainer"
+							<div id="table-responsive" id="table-responsive"
 								style="overflow-y: auto; max-height: 500px; border: 1px;">
 								<table class="table table-borderless mb-0;table table-hover"
 									style="margin-top: -10px; font-size: 12px">
@@ -353,7 +387,7 @@
 										style="position: sticky; top: 0; background-color: #ffffff; z-index: 1;">
 										<tr>
 											<th>N°</th>
-											<th>VERIFICACION</th>
+											<th>ROTULADO</th>
 											<th>CODIGO</th>
 											<th>NOMBRE DEL BIEN</th>
 											<th>MARCA</th>
@@ -403,8 +437,9 @@
 											<td><%=(bienes.getNombreArea() != null && !bienes.getNombreArea().isEmpty()) ? bienes.getNombreArea() : "N/A"%></td>
 											<td><%=bienes.getEstado() == 1 ? "EN USO" : "INACTIVO"%></td>
 											<td><%=(bienes.getIdproveedores() != null) ? bienes.getIdproveedores() : "N/A"%></td>
-											<td><%=(bienes.getFechaAdquisicion() != null) ? bienes.getFechaAdquisicion() : "N/A"%></td>
-											<td><%=(bienes.getValorCompra() != null) ? bienes.getValorCompra() : "N/A"%></td>
+											<td><%=(bienes.getFechaAdquisicion() != null && !bienes.getFechaAdquisicion().isEmpty()) ? bienes.getFechaAdquisicion()
+				: "N/A"%></td>
+											<td><%=(bienes.getValorCompra() != null && !bienes.getValorCompra().isEmpty()) ? bienes.getValorCompra() : "N/A"%></td>
 											<td>
 												<button class="btn btn-info btn-sm"
 													onclick="showDescription('<%=(bienes.getDescripcion() != null && !bienes.getDescripcion().isEmpty()) ? bienes.getDescripcion()

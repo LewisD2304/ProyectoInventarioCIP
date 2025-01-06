@@ -87,26 +87,26 @@ public class BienesModel extends Conexion {
 			return 0;
 		}
 	}
-	
+
 	public int actualizarEstadoCheckbox(int idBien, int nuevoEstado) throws SQLException {
-	    try {
-	        int filasAfectadas = 0;
+		try {
+			int filasAfectadas = 0;
 
-	        String sql = "CALL sp_verificar(?, ?)";
-	        this.abrirConexion();
-	        cs = conexion.prepareCall(sql);
-	        cs.setInt(1, nuevoEstado);
-	        cs.setInt(2, idBien); 
+			String sql = "CALL sp_verificar(?, ?)";
+			this.abrirConexion();
+			cs = conexion.prepareCall(sql);
+			cs.setInt(1, nuevoEstado);
+			cs.setInt(2, idBien);
 
-	        filasAfectadas = cs.executeUpdate();
-	        this.cerrarConexion();
-	        return filasAfectadas; 
+			filasAfectadas = cs.executeUpdate();
+			this.cerrarConexion();
+			return filasAfectadas;
 
-	    } catch (Exception e) {
-	        System.out.println(e.getMessage()); 
-	        this.cerrarConexion();
-	        return 0; 
-	    }
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			this.cerrarConexion();
+			return 0;
+		}
 	}
 
 	public List<Categorias> listarCategorias() throws SQLException {
@@ -263,8 +263,8 @@ public class BienesModel extends Conexion {
 			while (rs.next()) {
 				Comprobantepago cp = new Comprobantepago();
 				cp.setIdcomprobantePago(rs.getInt("idcomprobantepago"));
-				cp.setIdmediopago(rs.getString("nombre_mediopago")); 
-				cp.setNumeroMedioPago(rs.getString("numero_mediopago")); 
+				cp.setIdmediopago(rs.getString("nombre_mediopago"));
+				cp.setNumeroMedioPago(rs.getString("numero_mediopago"));
 				cp.setIdtipoComprobante(rs.getString("nombre_tipocomprobante"));
 				cp.setNumero(rs.getString("numero_comprobante"));
 				lista.add(cp);
@@ -361,6 +361,7 @@ public class BienesModel extends Conexion {
 				bienes.setValorCompra(rs.getString("valorCompra"));
 				bienes.setDescripcion(rs.getString("descripcion"));
 				bienes.setEstado(rs.getInt("estado"));
+				bienes.setIdcomprobantes(rs.getInt("idcomprobantePago"));
 				this.cerrarConexion();
 			}
 
@@ -372,54 +373,54 @@ public class BienesModel extends Conexion {
 	}
 
 	public int modificarBienes(Bienes bienes) throws SQLException {
-	    try {
-	        int filasAfectadas = 0;
+		try {
+			int filasAfectadas = 0;
 
-	        // Imprimir el estado de 'bienes' en la consola
-	        System.out.println("Estado del objeto Bienes antes de la modificación:");
-	        System.out.println("ID: " + bienes.getIdbienes());
-	        System.out.println("Nombre: " + bienes.getNombrebien());
-	        System.out.println("Marca: " + bienes.getMarca());
-	        System.out.println("Modelo: " + bienes.getModelo());
-	        System.out.println("Número de Serie: " + bienes.getNroSerie());
-	        System.out.println("Fecha de Adquisición: " + bienes.getFechaAdquisicion());
-	        System.out.println("Valor de Compra: " + bienes.getValorCompra());
-	        System.out.println("Estado: " + bienes.getEstado());
-	        System.out.println("Descripción: " + bienes.getDescripcion());
-	        System.out.println("Código del Bien: " + bienes.getCodigoBien());
-	        System.out.println("ID Categoría: " + bienes.getIdcategorias());
-	        System.out.println("ID Proveedores: " + bienes.getIdproveedores());
-	        System.out.println("ID Responsable: " + (bienes.getIdresponsable().isEmpty() ? "0" : bienes.getIdresponsable()));
-	        System.out.println("ID Comprobante: " + bienes.getIdcomprobante());
+			// Imprimir el estado de 'bienes' en la consola
+			System.out.println("Estado del objeto Bienes antes de la modificación:");
+			System.out.println("ID: " + bienes.getIdbienes());
+			System.out.println("Nombre: " + bienes.getNombrebien());
+			System.out.println("Marca: " + bienes.getMarca());
+			System.out.println("Modelo: " + bienes.getModelo());
+			System.out.println("Número de Serie: " + bienes.getNroSerie());
+			System.out.println("Fecha de Adquisición: " + bienes.getFechaAdquisicion());
+			System.out.println("Valor de Compra: " + bienes.getValorCompra());
+			System.out.println("Estado: " + bienes.getEstado());
+			System.out.println("Descripción: " + bienes.getDescripcion());
+			System.out.println("Código del Bien: " + bienes.getCodigoBien());
+			System.out.println("ID Categoría: " + bienes.getIdcategorias());
+			System.out.println("ID Proveedores: " + bienes.getIdproveedores());
+			System.out.println(
+					"ID Responsable: " + (bienes.getIdresponsable().isEmpty() ? "0" : bienes.getIdresponsable()));
+			System.out.println("ID Comprobante: " + bienes.getIdcomprobantes());
 
-	        String sql = "CALL sp_editarBienes(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-	        this.abrirConexion();
-	        cs = conexion.prepareCall(sql);
-	        cs.setInt(1, bienes.getIdbienes());
-	        cs.setString(2, bienes.getNombrebien());
-	        cs.setString(3, bienes.getMarca());
-	        cs.setString(4, bienes.getModelo());
-	        cs.setString(5, bienes.getNroSerie());
-	        cs.setString(6, bienes.getFechaAdquisicion());
-	        cs.setString(7, bienes.getValorCompra());
-	        cs.setInt(8, bienes.getEstado());
-	        cs.setString(9, bienes.getDescripcion());
-	        cs.setString(10, bienes.getCodigoBien());
-	        cs.setString(11, bienes.getIdcategorias());
-	        cs.setString(12, bienes.getIdproveedores());
-	        cs.setString(13, bienes.getIdresponsable().isEmpty() ? "0" : bienes.getIdresponsable());
-	        cs.setString(14, bienes.getIdcomprobante());
-	        filasAfectadas = cs.executeUpdate();
-	        this.cerrarConexion();
-	        return filasAfectadas;
+			String sql = "CALL sp_editarBienes(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			this.abrirConexion();
+			cs = conexion.prepareCall(sql);
+			cs.setInt(1, bienes.getIdbienes());
+			cs.setString(2, bienes.getNombrebien());
+			cs.setString(3, bienes.getMarca());
+			cs.setString(4, bienes.getModelo());
+			cs.setString(5, bienes.getNroSerie());
+			cs.setString(6, bienes.getFechaAdquisicion());
+			cs.setString(7, bienes.getValorCompra());
+			cs.setInt(8, bienes.getEstado());
+			cs.setString(9, bienes.getDescripcion());
+			cs.setString(10, bienes.getCodigoBien());
+			cs.setString(11, bienes.getIdcategorias());
+			cs.setString(12, bienes.getIdproveedores());
+			cs.setString(13, bienes.getIdresponsable().isEmpty() ? "0" : bienes.getIdresponsable());
+			cs.setInt(14, bienes.getIdcomprobantes());
+			filasAfectadas = cs.executeUpdate();
+			this.cerrarConexion();
+			return filasAfectadas;
 
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        this.cerrarConexion();
-	        return 0;
-	    }
+		} catch (SQLException e) {
+			e.printStackTrace();
+			this.cerrarConexion();
+			return 0;
+		}
 	}
-
 
 	public List<Bienes> buscarNombre(String buscar) throws SQLException {
 		try {
@@ -439,17 +440,21 @@ public class BienesModel extends Conexion {
 				bienes.setModelo(rs.getString("modelo"));
 				bienes.setNroSerie(rs.getString("nroSerie"));
 				bienes.setIdcategorias(rs.getString("nombreCategoria"));
-				
+
 				bienes.setIdcategoriass(Integer.parseInt(rs.getString("idcategorias")));
 				bienes.setIdresponsables(Integer.parseInt(rs.getString("idresponsable")));
 				bienes.setIdproveedoress(Integer.parseInt(rs.getString("idproveedores")));
-				
+
 				bienes.setIdresponsable(rs.getString("nombreResponsable"));
 				bienes.setNombreArea(rs.getString("nombreAreas"));
 				bienes.setIdproveedores(rs.getString("nombreprov"));
 				bienes.setFechaAdquisicion(rs.getString("fechaAdquisicion"));
 				bienes.setValorCompra(rs.getString("valorCompra"));
 				bienes.setDescripcion(rs.getString("descripcion"));
+				bienes.setNombreMedioPago(rs.getString("medioPagoNombre"));
+				bienes.setNumeroMedioPago(rs.getString("medioPagoNumero"));
+				bienes.setNombreTipoComprobante(rs.getString("tipoComprobanteNombre"));
+				bienes.setNumeroComprobante(rs.getString("comprobanteNumero"));
 				bienes.setEstado(rs.getInt("estado"));
 				lista.add(bienes);
 			}

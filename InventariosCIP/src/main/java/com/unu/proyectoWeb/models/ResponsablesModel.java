@@ -28,6 +28,7 @@ public class ResponsablesModel extends Conexion {
 				responsable.setCargo(rs.getString("cargo"));
 				responsable.setTelefono(rs.getString("telefono"));
 				responsable.setIdarea(rs.getString("nombreAreas"));
+				responsable.setIdareas(Integer.parseInt(rs.getString("idarea")));
 				lista.add(responsable);
 
 			}
@@ -109,19 +110,21 @@ public class ResponsablesModel extends Conexion {
 
 	public Responsable obtenerResponsable(int idresponsable) {
 		Responsable responsable = new Responsable();
+		
 		try {
 			String sql = "CALL sp_obtenerResponsable(?)";
 			this.abrirConexion();
 			cs = conexion.prepareCall(sql);
 			cs.setInt(1, idresponsable);
 			rs = cs.executeQuery();
+
 			if (rs.next()) {
 				responsable.setIdresponsable(rs.getInt("idresponsable"));
 				responsable.setNombreResponsable(rs.getString("nombreResponsable"));
 				responsable.setTelefono(rs.getString("telefono"));
 				responsable.setCargo(rs.getString("cargo"));
-				responsable.setIdarea(rs.getString("idarea"));
-				responsable.setIdareas(Integer.parseInt("idareas"));
+				responsable.setIdarea(rs.getString("nombreAreas"));
+				responsable.setIdareas(Integer.parseInt(rs.getString("idarea")));
 				this.cerrarConexion();
 			}
 
@@ -138,10 +141,11 @@ public class ResponsablesModel extends Conexion {
 			String sql = "CALL sp_editarResponsables(?,?,?,?,?)";
 			this.abrirConexion();
 			cs = conexion.prepareCall(sql);
-			cs.setString(1, responsable.getNombreResponsable());
-			cs.setString(2, responsable.getTelefono());
-			cs.setString(3, responsable.getCargo());
-			cs.setString(4, responsable.getIdarea());
+			cs.setInt(1, responsable.getIdresponsable());
+			cs.setString(2, responsable.getNombreResponsable());
+			cs.setString(3, responsable.getTelefono());
+			cs.setString(4, responsable.getCargo());
+			cs.setString(5, responsable.getIdarea());
 			filasAfectadas = cs.executeUpdate();
 			this.cerrarConexion();
 			return filasAfectadas;

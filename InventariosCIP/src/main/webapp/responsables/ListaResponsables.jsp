@@ -161,14 +161,61 @@
 
 		function editar(idResponsable, nombreResponsable, cargo, telefono,
 				idarea) {
-			// Llenar los campos del modal con los valores correspondientes
-			document.getElementById('idResponsable').value = idResponsable;
-			document.getElementById('nombreResponsable').value = nombreResponsable;
-			document.getElementById('cargo').value = cargo;
-			document.getElementById('telefono').value = telefono;
-			document.getElementById('idarea').value = idarea;
+			// Mostrar los valores que recibe la función
+			console.log("Datos recibidos:");
+			console.log("ID Responsable:", idResponsable);
+			console.log("Nombre Responsable:", nombreResponsable);
+			console.log("Cargo:", cargo);
+			console.log("Teléfono:", telefono);
+			console.log("ID Área:", idarea);
 
-			// Mostrar el modal
+			// Verificar si los elementos existen en el DOM
+			console.log("Elementos en el DOM:");
+			console.log("idResponsable:", document
+					.getElementById('idResponsablee'));
+			console.log("nombreResponsable:", document
+					.getElementById('nombreResponsablee'));
+			console.log("cargo:", document.getElementById('cargoE'));
+			console.log("telefono:", document.getElementById('telefonoE'));
+			console.log("idarea:", document.getElementById('idareaE'));
+			
+			console.log(idarea);
+
+
+			// Si los elementos existen, asignarles los valores
+			if (document.getElementById('idResponsablee')) {
+				document.getElementById('idResponsablee').value = idResponsable;
+			} else {
+				console
+						.error("Elemento 'idResponsablee' no encontrado en el DOM.");
+			}
+
+			if (document.getElementById('nombreResponsablee')) {
+				document.getElementById('nombreResponsablee').value = nombreResponsable;
+			} else {
+				console
+						.error("Elemento 'nombreResponsablee' no encontrado en el DOM.");
+			}
+
+			if (document.getElementById('cargoE')) {
+				document.getElementById('cargoE').value = cargo;
+			} else {
+				console.error("Elemento 'cargoE' no encontrado en el DOM.");
+			}
+
+			if (document.getElementById('telefonoE')) {
+				document.getElementById('telefonoE').value = telefono;
+			} else {
+				console.error("Elemento 'telefonoE' no encontrado en el DOM.");
+			}
+
+			if (document.getElementById('idareaE')) {
+				document.getElementById('idareaE').value = idarea;
+			} else {
+				console.error("Elemento 'idareaE' no encontrado en el DOM.");
+			}
+
+			// Crear la instancia del modal y mostrarlo
 			var modal = new bootstrap.Modal(document
 					.getElementById('modalEditarResponsable'));
 			modal.show();
@@ -217,8 +264,7 @@
 		? responsable.getNombreResponsable()
 		: "N/A"%></td>
 												<td><%=(responsable.getCargo() != null && !responsable.getCargo().isEmpty()) ? responsable.getCargo() : "N/A"%></td>
-												<td><%=(responsable.getTelefono() != null && !responsable.getTelefono().isEmpty())
-		? responsable.getTelefono()
+												<td><%=(responsable.getTelefono() != null && !responsable.getTelefono().isEmpty()) ? responsable.getTelefono()
 		: "N/A"%></td>
 												<td><%=(responsable.getIdarea() != null) ? responsable.getIdarea() : "N/A"%></td>
 												<td><a href="javascript:void(0)"
@@ -227,7 +273,7 @@
                      '<%=responsable.getNombreResponsable()%>', 
                      '<%=responsable.getCargo()%>', 
                      '<%=responsable.getTelefono()%>', 
-                     '<%=responsable.getIdarea()%>')">
+                     '<%=responsable.getIdareas()%>')">
 														<svg xmlns="http://www.w3.org/2000/svg" width="16"
 															height="16" fill="currentColor"
 															class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -257,57 +303,48 @@
 																		action="<%=url%>ResponsablesController?op=modificar"
 																		method="POST">
 																		<div class="mb-3">
-																			<label for="idResponsable" class="form-label">ID
+																			<label for="idResponsablee" class="form-label">ID
 																				Responsable</label> <input type="text" class="form-control"
-																				id="idResponsable" name="idResponsable" readonly>
+																				id="idResponsablee" name="idResponsablee" readonly>
 																		</div>
 																		<div class="mb-3">
-																			<label for="nombreResponsable" class="form-label">Nombre
+																			<label for="nombreResponsablee" class="form-label">Nombre
 																				Responsable</label> <input type="text" class="form-control"
-																				id="nombreResponsable" name="nombreResponsable"
+																				id="nombreResponsablee" name="nombreResponsablee"
 																				required>
 																		</div>
 																		<div class="mb-3">
-																			<label for="cargo" class="form-label">Cargo</label> <input
-																				type="text" class="form-control" id="cargo"
-																				name="cargo" required>
+																			<label for="cargoE" class="form-label">Cargo</label>
+																			<input type="text" class="form-control" id="cargoE"
+																				name="cargoE" required>
 																		</div>
 																		<div class="mb-3">
-																			<label for="telefono" class="form-label">Teléfono</label>
-																			<input type="text" class="form-control" id="telefono"
-																				name="telefono" required>
+																			<label for="telefonoE" class="form-label">Teléfono</label>
+																			<input type="text" class="form-control"
+																				id="telefonoE" name="telefonoE">
 																		</div>
 																		<div class="col-md-4">
-																			<label for="idarea" class="form-label">Área</label> <select
-																				id="idarea" name="idarea" class="form-select">
+																			<label for="idareaE" class="form-label">Área</label>
+																			<select id="idareaE" name="idareaE"
+																				class="form-select">
 																				<option value="" selected>Seleccionar</option>
 																				<%
-																				List<Area> listaAreas = (List<Area>) request.getAttribute("listaAreas");
+																				List<Area> listaareae = (List<Area>) request.getAttribute("listaArea");
+
+																				if (listaareae != null && !listaareae.isEmpty()) {
+																					for (Area areae : listaareae) {
 																				%>
-																				<%
-																				if (listaAreas != null && !listaAreas.isEmpty()) {
-																				%>
-																				<%
-																				for (Area area : listaAreas) {
-																					boolean isSelected = area.getIdarea() == responsable.getIdareas();
-																				%>
-																				<script>
-            console.log("Comparación: area.getIdarea() = <%=area.getIdarea()%>, " +
-                        "responsable.getIdareas() = <%=responsable.getIdareas()%>, " +
-                        "Resultado: <%=isSelected%>
-																					");
-																				</script>
-																				<option value="<%=area.getIdarea()%>"
-																					<%=(area.getIdarea() == responsable.getIdareas()) ? "selected" : ""%>>
-																					<%=area.getNombreAreas()%>
+
+
+																				<option value="<%=areae.getIdarea()%>">
+																					<%=areae.getNombreAreas()%>
 																				</option>
 																				<%
 																				}
-																				%>
-																				<%
 																				} else {
 																				%>
-																				<option disabled>No hay áreas disponibles</option>
+																				<option disabled>No hay responsable
+																					disponibles</option>
 																				<%
 																				}
 																				%>

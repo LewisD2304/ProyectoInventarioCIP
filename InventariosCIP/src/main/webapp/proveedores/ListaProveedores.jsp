@@ -157,7 +157,7 @@
 												<td><%=proveedores.getTelefono() != null && !proveedores.getTelefono().isEmpty() ? proveedores.getTelefono() : "N/A"%></td>
 												<td><%=proveedores.getCorreo() != null && !proveedores.getCorreo().isEmpty() ? proveedores.getCorreo() : "N/A"%></td>
 												<td><a
-													href="<%=url%>BienesController?op=obtener&id=<%=proveedores.getIdproveedores()%>"
+													href="<%=url%>ProveedoresController?op=obtener&id=<%=proveedores.getIdproveedores()%>"
 													class="btn btn-outline-info btn-sm p-1"> <svg
 															xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 															fill="currentColor" class="bi bi-pencil-square"

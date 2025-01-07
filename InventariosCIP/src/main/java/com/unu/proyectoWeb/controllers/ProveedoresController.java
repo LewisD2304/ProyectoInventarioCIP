@@ -37,7 +37,7 @@ public class ProveedoresController extends HttpServlet {
 	}
 
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException, SQLException {
 		response.setContentType("text/html;charset=UTF-8");
 
 		String operacion = request.getParameter("op");
@@ -57,6 +57,13 @@ public class ProveedoresController extends HttpServlet {
 		case "insertar":
 			insertar(request, response);
 			break;
+		case "obtener":
+			obtener(request, response);
+			break;
+		case "modificar":
+			modificar(request, response);
+			break;
+			
 		case "buscarXnombre":
 			buscarXnombre(request, response);
 			break;
@@ -68,13 +75,21 @@ public class ProveedoresController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		processRequest(request, response);
+		try {
+			processRequest(request, response);
+		} catch (ServletException | IOException | SQLException e) {
+			e.printStackTrace();
+		}
 
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		processRequest(request, response);
+		try {
+			processRequest(request, response);
+		} catch (ServletException | IOException | SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void listar(HttpServletRequest request, HttpServletResponse response) {
@@ -131,20 +146,46 @@ public class ProveedoresController extends HttpServlet {
 		}
 
 	}
-	/*
-	 * private void eliminar(HttpServletRequest request, HttpServletResponse
-	 * response) { try {
-	 * 
-	 * int idbienes = Integer.parseInt(request.getParameter("id"));
-	 * 
-	 * if (modelo.eliminarBienes(idbienes) > 0) {
-	 * System.out.println("Registro eliminado exitosamente."); } else {
-	 * System.out.println("No se eliminó el registro."); }
-	 * 
-	 * response.sendRedirect(request.getContextPath() +
-	 * "/BienesController?op=listar");
-	 * 
-	 * } catch (Exception ex) { ex.getStackTrace(); } }
-	 */
+	private void obtener(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException, SQLException {
+		try {
+			int id = Integer.parseInt(request.getParameter("id"));
+			Proveedores miprov = modelo.obtenerProv(id);
+
+			if (miprov != null) {
+				request.setAttribute("proveedores", miprov);
+				request.getRequestDispatcher("/proveedores/EditarProveedores.jsp").forward(request, response);
+			} else {
+				response.sendError(HttpServletResponse.SC_NOT_FOUND, "Proveedores no encontrada");
+			}
+		} catch (NumberFormatException ex) {
+			Logger.getLogger(AreaController.class.getName()).log(Level.SEVERE, null, ex);
+			throw new ServletException("Error al obtener área", ex);
+		}
+	}
+
+	private void modificar(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
+		try {
+			Proveedores proveedores = new Proveedores();
+			proveedores.setIdproveedores(Integer.parseInt(request.getParameter("id")));
+			proveedores.setNombreprov(request.getParameter("nombreprov"));
+			proveedores.setClasificacion(request.getParameter("clasificacion"));
+			proveedores.setRuc(request.getParameter("ruc"));
+			proveedores.setDireccion(request.getParameter("direccion"));
+			proveedores.setTelefono(request.getParameter("telefono"));
+			proveedores.setCorreo(request.getParameter("correo"));
+
+			if (modelo.modificarProveedor(proveedores) > 0) {
+				request.getSession().setAttribute("exito", "Proveedores modificada correctamente");
+			} else {
+				request.getSession().setAttribute("fracaso", "No se pudo modificar el proveedores");
+			}
+			response.sendRedirect(request.getContextPath() + "/ProveedoresController?op=listar");
+		} catch (NumberFormatException | SQLException ex) {
+			Logger.getLogger(AreaController.class.getName()).log(Level.SEVERE, null, ex);
+			throw new ServletException("Error al modificar Proveedores", ex);
+		}
+	}
 
 }

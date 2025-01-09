@@ -237,6 +237,7 @@ public class BienesController extends HttpServlet {
 				request.getSession().setAttribute("fracaso",
 						"El Bien no ha sido ingresado" + "ya hay un autor con este codigo");
 			}
+			
 			response.sendRedirect(request.getContextPath() + "/BienesController?op=listar");
 
 		} catch (IOException | SQLException ex) {
@@ -251,11 +252,10 @@ public class BienesController extends HttpServlet {
 	private void actualizarEstadoCheckbox(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException {
 		try {
-			int idBien = Integer.parseInt(request.getParameter("idBien")); 
-			int nuevoEstado = Integer.parseInt(request.getParameter("nuevoEstado")); 
-			System.out.println("AO"+nuevoEstado);
-			
-			
+			int idBien = Integer.parseInt(request.getParameter("idBien"));
+			int nuevoEstado = Integer.parseInt(request.getParameter("nuevoEstado"));
+			System.out.println("AO" + nuevoEstado);
+
 			boolean exito = modelo.actualizarEstadoCheckbox(idBien, nuevoEstado) > 0;
 
 			// Configura la respuesta como JSON
@@ -325,7 +325,7 @@ public class BienesController extends HttpServlet {
 				List<Area> areas = modelo.listarAreas();
 				List<Proveedores> proveedores = modelo.listarProveedores();
 				List<Comprobantepago> comprobante = modelo.listarComprobante();
-				
+
 				request.setAttribute("bienes", miBienes);
 				request.setAttribute("categorias", categorias);
 				request.setAttribute("responsables", responsables);
@@ -362,7 +362,7 @@ public class BienesController extends HttpServlet {
 			miBienes.setIdresponsable(request.getParameter("idresponsables"));
 			miBienes.setIdcomprobantes(Integer.parseInt(request.getParameter("idcomprobantes")));
 			System.out.println(Integer.parseInt(request.getParameter("idcomprobantes")));
-			
+
 			if (modelo.modificarBienes(miBienes) > 0) {
 				request.getSession().setAttribute("EXITO", "Bienes Modificado Correctamente");
 			} else {

@@ -83,7 +83,7 @@
 <style>
 .container-custom {
 	width: 100%; /* Ocupa el 80% del ancho del viewport */
-	max-width: 1700px; /* No excede los 1200px en pantallas grandes */
+	max-width: 1350px; /* No excede los 1200px en pantallas grandes */
 	margin: 0 auto; /* Centra el contenedor */
 }
 
@@ -339,7 +339,8 @@
 				<div class="card shadow-2-strong" style="background-color: #f5f7fa;">
 					<div class="card-body">
 						<div class="table-responsive" id="table-responsive">
-							<div class="d-flex justify-content-between align-items-center mb-2">
+							<div
+								class="d-flex justify-content-between align-items-center mb-2">
 								<div class="d-flex">
 									<button class="btn btn-secondary p-1" onclick="scrollToStart()">
 										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -379,7 +380,7 @@
 
 
 
-							<div id="table-responsive" id="table-responsive"
+							<div id="tableContainer"
 								style="overflow-y: auto; max-height: 500px; border: 1px;">
 								<table class="table table-borderless mb-0;table table-hover"
 									style="margin-top: -10px; font-size: 12px">
@@ -435,7 +436,7 @@
 											<td><%=(bienes.getIdcategorias() != null) ? bienes.getIdcategorias() : "N/A"%></td>
 											<td><%=(bienes.getIdresponsable() != null) ? bienes.getIdresponsable() : "N/A"%></td>
 											<td><%=(bienes.getNombreArea() != null && !bienes.getNombreArea().isEmpty()) ? bienes.getNombreArea() : "N/A"%></td>
-											<td><%=bienes.getEstado() == 1 ? "EN USO" : "INACTIVO"%></td>
+											<td><%=bienes.getEstado() == 1 ? "ACTIVO" : "INACTIVO"%></td>
 											<td><%=(bienes.getIdproveedores() != null) ? bienes.getIdproveedores() : "N/A"%></td>
 											<td><%=(bienes.getFechaAdquisicion() != null && !bienes.getFechaAdquisicion().isEmpty()) ? bienes.getFechaAdquisicion()
 				: "N/A"%></td>

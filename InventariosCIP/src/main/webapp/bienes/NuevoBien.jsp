@@ -16,50 +16,93 @@
 	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
 	crossorigin="anonymous">
 
+<!-- JavaScript -->
+<script
+	src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+
+<!-- CSS -->
+<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css" />
+<!-- Default theme -->
+<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/default.min.css" />
+<!-- Semantic UI theme -->
+<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/semantic.min.css" />
+<!-- Bootstrap theme -->
+<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/bootstrap.min.css" />
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 	crossorigin="anonymous"></script>
 
-<script>
-	function validarFormulario() {
-		const nombre = document.getElementById('nombre').value.trim();
-		const nacionalidad = document.getElementById('nacionalidad').value
-				.trim();
 
-		if (nombre === '') {
-			alert('Ingrese el nombre del autor');
-			document.getElementById('nombre').focus();
-			return false;
-		}
-
-		if (nacionalidad === '') {
-			alert('Ingrese la nacionalidad del autor');
-			document.getElementById('nacionalidad').focus();
-			return false;
-		}
-		return true;
-	}
-</script>
+<%
+// Recuperamos el valor de "registroExitoso" que el controlador ha establecido
+Boolean registroExitoso = (Boolean) request.getAttribute("registroExitoso");
+%>
 
 <script>
-	document.addEventListener("DOMContentLoaded", function() {
-		const toggleForm = document.getElementById("toggleForm");
-		const nombreField = document.getElementById("nombre");
-		const numeromField = document.getElementById("numerom");
-		const guardarButton = document.getElementById("guardarMedioPago");
+    // Código para habilitar/deshabilitar campos
+    const toggleForm = document.getElementById("toggleForm");
+    const nombreField = document.getElementById("nombre");
+    const numeromField = document.getElementById("numerom");
+    const guardarButton = document.getElementById("guardarMedioPago");
 
-		// Evento para habilitar/deshabilitar los campos
-		toggleForm.addEventListener("change", function() {
-			const isChecked = toggleForm.checked;
-			nombreField.disabled = !isChecked;
-			numeromField.disabled = !isChecked;
-			guardarButton.disabled = !isChecked;
-		});
-	});
+    // Evento para habilitar/deshabilitar los campos
+    toggleForm.addEventListener("change", function() {
+        const isChecked = toggleForm.checked;
+        nombreField.disabled = !isChecked;
+        numeromField.disabled = !isChecked;
+        guardarButton.disabled = !isChecked;
+    });
+});
+
 </script>
+<script type="text/javascript">
+document.getElementById('miFormulario').addEventListener('submit', function(event) {
+    event.preventDefault(); // Previene el envío real del formulario
 
+    // Obtener los datos del formulario
+    const formData = new FormData(this);
 
+    // Enviar los datos mediante una solicitud AJAX
+    fetch('BienesController?op=insertar', { // Cambia la URL al endpoint adecuado
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) { 
+            // Manejar errores HTTP (status 4xx o 5xx)
+            throw new Error('Error en la respuesta del servidor: ' + response.statusText);
+        }
+        return response.json(); // Intentar analizar la respuesta como JSON
+    })
+    .then(data => {
+        if (data.success) { // Validamos la respuesta del servidor
+            // Configurar Alertify para éxito
+            alertify.set('notifier', 'delay', 4);
+            alertify.set('notifier', 'position', 'bottom-right');
+            alertify.success('Datos ingresados correctamente.');
+
+            // Redirigir después de un breve retraso
+            setTimeout(function() {
+                window.location.href = 'BienesController?op=listar';
+            }, 2000); // 2 segundos de espera
+        } else {
+            // Mostrar errores si los datos no fueron válidos
+            alertify.set('notifier', 'delay', 4);
+            alertify.error(data.message || 'Hubo un error al ingresar los datos.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error); // Imprime errores en la consola para depuración
+        alertify.set('notifier', 'delay', 4);
+        alertify.error('Error de conexión con el servidor. Verifique la red o el servidor.');
+    });
+});
+</script>
 
 </head>
 <body>
@@ -214,8 +257,8 @@
 
 			<br> <br>
 
-			<form class="row g-3" action="<%=url%>BienesController?op=insertar"
-				method="POST">
+			<form id="miFormulario" class="row g-3"
+				action="<%=url%>BienesController?op=insertar" method="POST">
 				<div class="col-md-3">
 					<label class="form-label">Codigo Unico del Bien</label> <input
 						type="text" class="form-control" name="codigoBien" id="codigoBien"
@@ -265,7 +308,8 @@
 
 
 				</div>
-				<<div class="col-md-4">
+
+				<div class="col-md-4">
 					<label for="idcategorias" class="form-label">Categoría</label> <select
 						id="idcategorias" name="idcategoriass" class="form-select">
 						<option value="" selected disabled>Seleccionar Categoría</option>
@@ -381,6 +425,7 @@
 		</div>
 
 	</div>
+
 
 
 

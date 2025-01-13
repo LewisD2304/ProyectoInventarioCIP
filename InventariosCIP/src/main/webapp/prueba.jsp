@@ -14,6 +14,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sistema de Inventario</title>
+
+
 <style>
 body {
 	font-family: Arial, sans-serif;

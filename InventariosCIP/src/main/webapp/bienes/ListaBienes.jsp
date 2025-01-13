@@ -12,17 +12,16 @@
 
 <title>INVENTARIO WEB</title>
 
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+	crossorigin="anonymous"></script>
 
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
 	crossorigin="anonymous">
-
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-	crossorigin="anonymous"></script>
 
 <link rel="icon"
 	href="/InventariosCIP/resources/logocip-removebg-preview.ico"
@@ -292,10 +291,18 @@
 
 <body>
 
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+		crossorigin="anonymous"></script>
+
 	<div>
 		<%@ include file='/cabeceramenu.jsp'%>
 	</div>
 	<br>
+
+
+
 
 	<%
 	String url = "http://localhost:8080/InventariosCIP/";
@@ -326,52 +333,60 @@
 
 	<br>
 
+
+
+
 	<nav class="navbar bg-body-tertiary">
 		<div class="container d-flex justify-content-end align-items-center">
-			<div class="col-md-3">
-				<form id="form-areas" action="BienesController" method="GET"
-					class="d-flex">
-					<label for="idareas" class="control me-2"> </label> <select
-						id="idareas" name="buscar" class="form-select me-2"
-						onchange="this.form.submit()">
-						<option>Busqueda por Área</option>
-						<%
-						List<Area> listaAreas = (List<Area>) request.getAttribute("ListaAreas");
-						if (listaAreas != null && !listaAreas.isEmpty()) {
-							for (Area area : listaAreas) {
-						%>
-						<option value="<%=area.getIdarea()%>">
-							<%=area.getNombreAreas()%>
-						</option>
-						<%
-						}
-						} else {
-						%>
-						<option disabled>No hay áreas disponibles</option>
-						<%
-						}
-						%>
-					</select> <input type="hidden" name="op" value="buscar">
-				</form>
-			</div>
-
-			<form class="d-flex me-1" role="search"
-				action="<%=url%>BienesController?op=buscarXnombre" method="GET">
+			<form id="form-busqueda" action="<%=url%>BienesController"
+				method="GET" class="d-flex align-items-center">
+				<!-- Campo de búsqueda por nombre del bien -->
 				<input class="form-control me-2" type="search" name="buscar"
 					id="buscar" placeholder="Buscar nombre del bien"
 					aria-label="buscar">
-				<button class="btn btn-outline-success" type="submit" name="op"
-					value="buscarXnombre">
+
+				<!-- Botón de búsqueda general centrado -->
+				<button class="btn btn-outline-secondary ms-2 me-2" type="submit"
+					name="op" value="buscarXnombre">
 					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
 						fill="currentColor" class="bi bi-search" viewBox="0 0 18 18">
-  <path
+                    <path
 							d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-</svg>
+                </svg>
+				</button>
+
+				<!-- Campo de selección para el área -->
+				<select name="area" id="area" class="form-select me-2">
+					<option value="">Seleccionar área</option>
+					<%
+					List<Area> listaAreas = (List<Area>) request.getAttribute("ListaAreas");
+					if (listaAreas != null && !listaAreas.isEmpty()) {
+						for (Area area : listaAreas) {
+					%>
+					<option value="<%=area.getIdarea()%>"><%=area.getNombreAreas()%></option>
+					<%
+					}
+					} else {
+					%>
+					<option disabled>No hay áreas disponibles</option>
+					<%
+					}
+					%>
+				</select>
+
+				<!-- Botón de búsqueda por área -->
+				<button class="btn btn-outline-success" type="submit" name="op"
+					value="buscarBienesxArea">
+					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+						fill="currentColor" class="bi bi-search" viewBox="0 0 18 18">
+                    <path
+							d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                </svg>
 				</button>
 			</form>
-
 		</div>
 	</nav>
+
 
 
 	<div class="container-custom">
@@ -554,41 +569,16 @@
 										%>
 
 									</tbody>
-									
-								</table>
-
-						
 
 								</table>
 
-								<!-- Agregar la paginación aquí -->
-								<div class="pagination-container"
-									style="display: flex; justify-content: center; margin-top: 20px;">
-									<nav aria-label="Page navigation example">
-										<ul class="pagination">
-											<!-- Páginas dinámicas -->
-											<li class="page-item"><a class="page-link"
-												href="?pagina=1&tamanoPagina=10" aria-label="Previous">
-													<span aria-hidden="true">&laquo;</span>
-											</a></li>
-											<%-- Aquí puedes calcular dinámicamente los números de página --%>
-											<li class="page-item"><a class="page-link"
-												href="?pagina=1&tamanoPagina=10">1</a></li>
-											<li class="page-item"><a class="page-link"
-												href="?pagina=2&tamanoPagina=10">2</a></li>
-											<li class="page-item"><a class="page-link"
-												href="?pagina=3&tamanoPagina=10">3</a></li>
-											<li class="page-item"><a class="page-link"
-												href="?pagina=4&tamanoPagina=10" aria-label="Next"> <span
-													aria-hidden="true">&raquo;</span>
-											</a></li>
-										</ul>
-									</nav>
-								</div>
+
+
+								</table>
 
 
 
-								
+
 								<div id="descriptionModal" class="modal">
 									<div class="modal-content">
 										<span class="close-button" onclick="closeModal2()">&times;</span>

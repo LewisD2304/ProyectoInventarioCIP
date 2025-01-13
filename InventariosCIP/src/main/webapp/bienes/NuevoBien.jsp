@@ -9,12 +9,20 @@
 <meta charset="UTF-8">
 <title>NUEVO BIEN</title>
 
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+	crossorigin="anonymous"></script>
 
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
 	crossorigin="anonymous">
+
+<link rel="icon"
+	href="/InventariosCIP/resources/logocip-removebg-preview.ico"
+	type="image/x-icon">
 
 <!-- JavaScript -->
 <script
@@ -32,10 +40,7 @@
 <!-- Bootstrap theme -->
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/bootstrap.min.css" />
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-	crossorigin="anonymous"></script>
+
 
 
 <%
@@ -105,9 +110,18 @@ document.getElementById('miFormulario').addEventListener('submit', function(even
 </script>
 
 </head>
-<body>
 
-	<%@ include file='/cabeceramenu.jsp'%>
+<body>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+		crossorigin="anonymous"></script>
+
+	<div>
+		<%@ include file='/cabeceramenu.jsp'%>
+	</div>
+	<br>
+
 
 	<%
 	if (request.getAttribute("respuesta") != null) {
@@ -343,6 +357,7 @@ document.getElementById('miFormulario').addEventListener('submit', function(even
 
 						if (listaproveedor != null && !listaproveedor.isEmpty()) {
 							for (Proveedores proveedor : listaproveedor) {
+								
 						%>
 
 

@@ -469,4 +469,62 @@ public class BienesModel extends Conexion {
 		}
 	}
 
+	public List<Bienes> buscarNombreBienxArea(String buscar, String area) throws SQLException {
+	    try {
+	        List<Bienes> lista = new ArrayList<>();
+	        // Consulta SQL con los dos parámetros
+	        String sql = "CALL sp_buscarNombreBienxArea(?, ?)";
+	        this.abrirConexion();
+	        cs = conexion.prepareCall(sql);
+	        
+	        // Establecer los parámetros en el orden correcto
+	        cs.setString(1, area);  // Parámetro para el área
+	        cs.setString(2, buscar);  // Parámetro para la búsqueda por nombre
+
+	        // Ejecutar la consulta
+	        rs = cs.executeQuery();
+
+	        // Procesar los resultados
+	        while (rs.next()) {
+	            Bienes bienes = new Bienes();
+	            bienes.setIdbienes(rs.getInt("idbienes"));
+	            bienes.setVerificar(rs.getInt("verificar"));
+	            bienes.setCodigoBien(rs.getString("codigoBien"));
+	            bienes.setNombrebien(rs.getString("nombrebien"));
+	            bienes.setMarca(rs.getString("marca"));
+	            bienes.setModelo(rs.getString("modelo"));
+	            bienes.setNroSerie(rs.getString("nroSerie"));
+	            bienes.setIdcategorias(rs.getString("nombreCategoria"));
+	            bienes.setIdcategoriass(Integer.parseInt(rs.getString("idcategorias")));
+	            bienes.setIdresponsables(Integer.parseInt(rs.getString("idresponsable")));
+	            bienes.setIdproveedoress(Integer.parseInt(rs.getString("idproveedores")));
+	            bienes.setIdresponsable(rs.getString("nombreResponsable"));
+	            bienes.setNombreArea(rs.getString("nombreAreas"));
+	            bienes.setIdproveedores(rs.getString("nombreprov"));
+	            bienes.setFechaAdquisicion(rs.getString("fechaAdquisicion"));
+	            bienes.setValorCompra(rs.getString("valorCompra"));
+	            bienes.setDescripcion(rs.getString("descripcion"));
+	            bienes.setNombreMedioPago(rs.getString("medioPagoNombre"));
+	            bienes.setNumeroMedioPago(rs.getString("medioPagoNumero"));
+	            bienes.setNombreTipoComprobante(rs.getString("tipoComprobanteNombre"));
+	            bienes.setNumeroComprobante(rs.getString("comprobanteNumero"));
+	            bienes.setEstado(rs.getInt("estado"));
+	            
+	            // Agregar el bien a la lista
+	            lista.add(bienes);
+	        }
+	        
+	        // Cerrar la conexión
+	        this.cerrarConexion();
+	        return lista;
+
+	    } catch (Exception ex) {
+	        // Manejo de la excepción
+	        ex.printStackTrace();  // Imprimir el error para depuración
+	        this.cerrarConexion();
+	        return null;
+	    }
+	}
+
+
 }

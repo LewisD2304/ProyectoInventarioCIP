@@ -70,6 +70,13 @@ public class BienesController extends HttpServlet {
 			break;
 		case "buscarXnombre":
 			buscarXnombre(request, response);
+			break;	
+		case "buscarBienesxArea":
+			// Capturar los parámetros de búsqueda y área
+			String buscar = request.getParameter("buscar"); // Parámetro de búsqueda por nombre
+			String area = request.getParameter("area"); // Parámetro de búsqueda por área
+			// Asegúrate de pasar estos dos parámetros al método adecuado
+			buscarBienesxArea(request, response, buscar, area); // Llamar al método con ambos parámetros
 			break;
 		case "obtener":
 			cargarCategorias(request, response);
@@ -237,7 +244,7 @@ public class BienesController extends HttpServlet {
 				request.getSession().setAttribute("fracaso",
 						"El Bien no ha sido ingresado" + "ya hay un autor con este codigo");
 			}
-			
+
 			response.sendRedirect(request.getContextPath() + "/BienesController?op=listar");
 
 		} catch (IOException | SQLException ex) {
@@ -311,6 +318,25 @@ public class BienesController extends HttpServlet {
 			e.printStackTrace();
 		}
 
+	}
+
+	private void buscarBienesxArea(HttpServletRequest request, HttpServletResponse response, String buscar,
+			String area) {
+		try {
+			// Llamar al método modelo con ambos parámetros 'buscar' y 'area'
+			request.setAttribute("ListaBienes", modelo.buscarNombreBienxArea(buscar, area)); // Llamar con ambos
+																								// parámetros
+
+			// Cargar las áreas (si es necesario)
+			cargarAreas(request, response);
+
+			// Redirigir a la vista
+			request.getRequestDispatcher("/bienes/ListaBienes.jsp").forward(request, response);
+		} catch (ServletException | IOException ex) {
+			Logger.getLogger(BienesController.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void obtener(HttpServletRequest request, HttpServletResponse response) {

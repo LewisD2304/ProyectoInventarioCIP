@@ -9,21 +9,22 @@
 <meta charset="UTF-8">
 <title>NUEVO BIEN</title>
 
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+	crossorigin="anonymous"></script>
+
+
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
 	crossorigin="anonymous">
 
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-	crossorigin="anonymous"></script>
-	
 
 <link rel="icon"
 	href="/InventariosCIP/resources/logocip-removebg-preview.ico"
-	type="image/x-icon">	
+	type="image/x-icon">
 
 <script>
 	function validarFormulario() {
@@ -47,9 +48,18 @@
 </script>
 
 </head>
-<body>
 
-	<%@ include file='/cabeceramenu.jsp'%>
+<body>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+		crossorigin="anonymous"></script>
+
+	<div>
+		<%@ include file='/cabeceramenu.jsp'%>
+	</div>
+	<br>
+
 
 	<%
 	if (request.getAttribute("respuesta") != null) {
@@ -75,21 +85,24 @@
 		<div class="container">
 			<h3>REGISTRAR UN PROVEEDOR</h3>
 
-			<form class="row g-3" action="<%=url%>ProveedoresController?op=insertar"
-				method="POST">
+			<form class="row g-3"
+				action="<%=url%>ProveedoresController?op=insertar" method="POST">
 				<div class="col-md-3">
 					<label class="form-label">Nombre del Proveedor</label> <input
 						type="text" class="form-control" name="nombreprov" id="nombreprov"
-						placeholder="Nombre del Proveedor" style="text-transform: uppercase" required>
+						placeholder="Nombre del Proveedor"
+						style="text-transform: uppercase" required>
 				</div>
 				<div class="col-md-4">
-					<label class="form-label">Clasificacion</label> <input
-						type="text" class="form-control" name="clasificacion" id="clasificacion"
-						placeholder="Clasificacion" style="text-transform: uppercase" required>
+					<label class="form-label">Clasificacion</label> <input type="text"
+						class="form-control" name="clasificacion" id="clasificacion"
+						placeholder="Clasificacion" style="text-transform: uppercase"
+						required>
 				</div>
 				<div class="col-md-4">
 					<label class="form-label">Ruc</label> <input type="text"
-						class="form-control" name="ruc" id="ruc" placeholder="Ruc" style="text-transform: uppercase">
+						class="form-control" name="ruc" id="ruc" placeholder="Ruc"
+						style="text-transform: uppercase">
 				</div>
 				<div class="col-md-4">
 					<label class="form-label">Direccion</label> <input type="text"
@@ -102,11 +115,11 @@
 						placeholder="Telefono" style="text-transform: uppercase">
 				</div>
 				<div class="col-md-4">
-					<label class="form-label">Correo</label> <input
-						type="text" class="form-control" name="correo"
-						id="correo" placeholder="Correo">
+					<label class="form-label">Correo</label> <input type="text"
+						class="form-control" name="correo" id="correo"
+						placeholder="Correo">
 				</div>
-				
+
 				<div class="col-12">
 					<input type="submit" class="btn btn-primary" value="Guardar"
 						name="Guardar"> <a class="btn btn-danger"

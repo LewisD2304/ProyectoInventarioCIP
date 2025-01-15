@@ -271,12 +271,18 @@ estilo para botones
 		</div>
 	</div>
 
+	<br>
+
+
+	<div class="container">
+		<div class="d-flex justify-content-end mb-3"></div>
+	</div>
+
+
 
 	<footer class="bg-danger text-white text-center py-3">
-		<p>© 2025 Inventario Web - Todos los derechos reservados.</p>
+		<p>&copy; 2025 Inventario Web - Todos los derechos reservados.</p>
 	</footer>
-
-
 
 </body>
 </html>

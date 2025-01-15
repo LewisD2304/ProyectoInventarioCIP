@@ -11,7 +11,7 @@
 
 <style type="text/css">
 body {
-	background-image: url('/InventariosCIP/resources/fondo.png');
+	background-image: url('/InventariosCIP/resources/fondo.jpg');
 	background-size: cover;
 	/* La imagen se ajusta para cubrir toda la pantalla */
 	background-position: center center;

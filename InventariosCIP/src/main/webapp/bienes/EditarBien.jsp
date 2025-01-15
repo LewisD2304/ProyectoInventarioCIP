@@ -9,9 +9,10 @@
 <meta charset="UTF-8">
 <title>EDITAR BIEN</title>
 
+
 <style type="text/css">
 body {
-	background-image: url('/InventariosCIP/resources/fondo.png');
+	background-image: url('/InventariosCIP/resources/fondo.jpg');
 	background-size: cover;
 	/* La imagen se ajusta para cubrir toda la pantalla */
 	background-position: center center;
@@ -20,6 +21,30 @@ body {
 	/* La imagen de fondo no se mueve al hacer scroll */
 	background-repeat: no-repeat; /* No repite la imagen */
 }
+</style>
+
+
+<style type="text/css">
+body {
+	background-image: url('/InventariosCIP/resources/fondo.jpg');
+	background-size: cover;
+	background-position: center center;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	position: relative; /* Necesario para que la capa de niebla esté posicionada correctamente */
+}
+
+.niebla {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(255, 255, 255, 0.5); /* Efecto de niebla blanco semi-transparente */
+	opacity: 0.6; /* Puedes ajustar este valor para hacer la niebla más o menos intensa */
+	pointer-events: none; /* Asegura que esta capa no interfiera con la interacción del usuario */
+}
+
 </style>
 
 

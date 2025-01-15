@@ -13,16 +13,10 @@
 <title>PAGINA WEB</title>
 
 
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-	crossorigin="anonymous">
+<link rel="icon"
+	href="/InventariosCIP/resources/logocip-removebg-preview.ico"
+	type="image/x-icon">
 
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-	crossorigin="anonymous"></script>
 <style>
 .card {
 	border-radius: .5rem;
@@ -37,8 +31,72 @@
 	box-shadow: 10px 10px 10px rgba(46, 54, 68, 0.03);
 }
 </style>
+<style>
+/* Botón personalizado */
+.btn-modern {
+	background-color: #28a745; /* Color verde moderno */
+	color: #fff;
+	font-weight: bold;
+	padding: 10px 20px;
+	border-radius: 25px; /* Bordes redondeados */
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+	transition: all 0.3s ease; /* Efecto de transición */
+}
 
+/* Efecto hover */
+.btn-modern:hover {
+	background-color: #218838; /* Color verde más oscuro */
+	box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Sombra más intensa */
+	transform: translateY(-2px); /* Animación ligera al pasar el cursor */
+	text-decoration: none; /* Evitar subrayado en hover */
+}
 
+/* Ícono SVG */
+.btn-modern .bi {
+	transition: transform 0.3s ease; /* Suavidad al rotar */
+}
+
+/* Rotación ligera del ícono al pasar el cursor */
+.btn-modern:hover .bi {
+	transform: rotate(90deg);
+}
+</style>
+
+<style>
+/* Aplica Flexbox al body para que el contenido ocupe todo el alto disponible */
+html, body {
+	height: 100%;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+}
+/* El contenedor principal puede crecer */
+.content {
+	flex-grow: 1;
+}
+/* El pie de página siempre se ubica en la parte inferior */
+footer {
+	background-color: #dc3545;
+	color: white;
+	text-align: center;
+	padding: 15px;
+}
+</style>
+<!-- 
+estilo para botones
+ -->
+<style>
+.hover-effect {
+	transition: background-color 0.3s ease, box-shadow 0.3s ease, transform
+		0.3s ease;
+}
+
+.hover-effect:hover {
+	background-color: #4CAF50;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	transform: scale(1.05);
+}
+</style>
 
 </head>
 
@@ -65,7 +123,7 @@
 		<div class="container">
 			<div class="d-flex justify-content-end mb-2">
 
-				<a class="btn btn-primary d-flex align-items-center"
+				<a class="btn btn-success d-flex align-items-center"
 					data-bs-toggle="modal" data-bs-target="#modalAgregarArea"> <svg
 						xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 						fill="currentColor" class="bi bi-plus-square me-1"
@@ -85,38 +143,42 @@
 			aria-labelledby="modalAgregarAreaLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
+
+
+
 					<div class="modal-header">
 						<h5 class="modal-title" id="modalAgregarAreaLabel">Agregar
-							Nueva Responsable</h5>
+							Nuevo Responsable</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
 							aria-label="Close"></button>
 					</div>
+
+
 					<div class="modal-body">
 						<!-- Formulario para agregar una nueva área -->
 						<form action="<%=url%>ResponsablesController?op=insertar"
 							method="POST">
-							<div class="mb-3">
-								<label for="nombreResponsable" class="form-label">Nombre</label>
+							<div class="mb-3 form-floating">
 								<input type="text" class="form-control" id="nombreResponsable"
 									name="nombreResponsable"
-									placeholder="Ingrese el nombre del responsable" required>
+									placeholder="Ingrese el nombre del responsable" required><label
+									for="cargo" class="form-label">Nombre</label>
 							</div>
 
-							<div class="mb-3">
-								<label for="cargo" class="form-label">Cargo</label> <input
-									type="text" class="form-control" id="cargo" name="cargo"
-									placeholder="Ingrese el cargo" required>
+							<div class="mb-3 form-floating">
+								<input type="text" class="form-control" id="cargo" name="cargo"
+									placeholder="Ingrese el cargo" required> <label
+									for="cargo" class="form-label">Cargo</label>
 							</div>
 
-							<div class="mb-3">
-								<label for="telefono" class="form-label">Contacto</label> <input
-									type="text" class="form-control" id="telefono" name="telefono"
-									placeholder="Ingrese el teléfono" required>
+							<div class="mb-3 form-floating">
+								<input type="text" class="form-control" id="telefono"
+									name="telefono" placeholder="Ingrese el teléfono" required>
+								<label for="telefono" class="form-label">Contacto</label>
 							</div>
-							<div class="col-md-4">
-								<label for="idareas" class="form-label">Area
-									Perteneciente</label> <select id="idareas" name="idareas"
-									class="form-select">
+							<div class="mb-3 form-floating">
+								<select id="idareas" name="idareas" class="form-select" required>
+
 									<option value="" selected>Seleccionar</option>
 									<%
 									List<Area> listaarea = (List<Area>) request.getAttribute("listaArea");
@@ -133,14 +195,17 @@
 									}
 									} else {
 									%>
-									<option disabled>No hay responsable disponibles</option>
+									<option disabled>No hay responsables disponibles</option>
 									<%
 									}
 									%>
-								</select>
+								</select> <label for="idareas" class="form-label">Área
+									Perteneciente</label>
 							</div>
-							<button type="submit" class="btn btn-primary">Guardar
-								cambios</button>
+							<div class="col-12 d-flex justify-content-center">
+								<button type="submit" class="btn btn-primary mx-2 hover-effect">Guardar
+									cambios</button>
+							</div>
 						</form>
 					</div>
 				</div>
@@ -257,7 +322,7 @@
 
 										</div>
 
-										<thead class="table">
+										<thead class="table" style="position: sticky; top: 0">
 											<tr>
 												<th>N°</th>
 												<th>NOMBRE</th>
@@ -319,29 +384,33 @@
 																	<form
 																		action="<%=url%>ResponsablesController?op=modificar"
 																		method="POST">
-																		<div class="mb-3">
-																			<label for="idResponsablee" class="form-label">ID
-																				Responsable</label> <input type="text" class="form-control"
-																				id="idResponsablee" name="idResponsablee" readonly>
-																		</div>
-																		<div class="mb-3">
-																			<label for="nombreResponsablee" class="form-label">Nombre
-																				Responsable</label> <input type="text" class="form-control"
-																				id="nombreResponsablee" name="nombreResponsablee"
-																				required>
-																		</div>
-																		<div class="mb-3">
-																			<label for="cargoE" class="form-label">Cargo</label>
-																			<input type="text" class="form-control" id="cargoE"
-																				name="cargoE" required>
-																		</div>
-																		<div class="mb-3">
-																			<label for="telefonoE" class="form-label">Teléfono</label>
+																		<div class="mb-3 form-floating">
 																			<input type="text" class="form-control"
-																				id="telefonoE" name="telefonoE">
+																				id="idResponsablee" name="idResponsablee" readonly>
+																			<label for="idResponsablee" class="form-label">ID
+																				Responsable</label>
 																		</div>
-																		<div class="col-md-4">
-																			<label for="idareaE" class="form-label">Área</label>
+
+																		<div class="mb-3 form-floating">
+																			<input type="text" class="form-control"
+																				id="nombreResponsablee" name="nombreResponsablee"
+																				required> <label for="nombreResponsablee"
+																				class="form-label">Nombre Responsable</label>
+																		</div>
+
+																		<div class="mb-3 form-floating">
+																			<input type="text" class="form-control" id="cargoE"
+																				name="cargoE" required> <label for="cargoE"
+																				class="form-label">Cargo</label>
+																		</div>
+
+																		<div class="mb-3 form-floating">
+																			<input type="text" class="form-control"
+																				id="telefonoE" name="telefonoE"> <label
+																				for="telefonoE" class="form-label">Teléfono</label>
+																		</div>
+
+																		<div class="mb-3 form-floating">
 																			<select id="idareaE" name="idareaE"
 																				class="form-select">
 																				<option value="" selected>Seleccionar</option>
@@ -351,8 +420,6 @@
 																				if (listaareae != null && !listaareae.isEmpty()) {
 																					for (Area areae : listaareae) {
 																				%>
-
-
 																				<option value="<%=areae.getIdarea()%>">
 																					<%=areae.getNombreAreas()%>
 																				</option>
@@ -360,17 +427,21 @@
 																				}
 																				} else {
 																				%>
-																				<option disabled>No hay responsable
+																				<option disabled>No hay responsables
 																					disponibles</option>
 																				<%
 																				}
 																				%>
-																			</select>
+																			</select> <label for="idareaE" class="form-label">Área</label>
 																		</div>
-																		<button type="submit" class="btn btn-primary">Guardar
-																			cambios</button>
+																		<div class="col-12 d-flex justify-content-center">
+																			<button type="submit"
+																				class="btn btn-primary mx-2 hover-effect">Guardar
+																				cambios</button>
+																		</div>
 																	</form>
 																</div>
+
 															</div>
 														</div>
 													</div> <a
@@ -416,6 +487,8 @@
 			</div>
 		</div>
 	</div>
-
+	<footer class="bg-danger text-white text-center py-3">
+		<p>© 2025 Inventario Web - Todos los derechos reservados.</p>
+	</footer>
 </body>
 </html>

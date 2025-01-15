@@ -8,7 +8,7 @@
 </head>
 <body>
 	<div>
-		<%@ include file='/cabeceramenuLogo.jsp'%>
+		<%@ include file='/Animacion.jsp'%>
 	</div>
 </body>
 </html>

@@ -39,11 +39,16 @@ public class BienesController extends HttpServlet {
 		String operacion = request.getParameter("op");
 
 		if (operacion == null) {
-			listar(request, response);
+			listarConPaginacion(request, response);
 			return;
 		}
 
 		switch (operacion) {
+
+		case "listarConPaginacion": // Agregar esta operación
+			cargarAreas(request, response);
+			listarConPaginacion(request, response);
+			break;
 		case "listar":
 			cargarAreas(request, response);
 			listar(request, response);
@@ -71,6 +76,11 @@ public class BienesController extends HttpServlet {
 		case "buscarXnombre":
 			buscarXnombre(request, response);
 			break;
+		case "buscarBienesxArea":
+			String buscar = request.getParameter("buscar"); 
+			String area = request.getParameter("area"); 
+			buscarBienesxArea(request, response, buscar, area); 
+			break;
 		case "obtener":
 			cargarCategorias(request, response);
 			cargarProveedores(request, response);
@@ -89,14 +99,60 @@ public class BienesController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		processRequest(request, response);
-
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		processRequest(request, response);
+	}
+
+	private void listarConPaginacion(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		int pagina = 1; // Página por defecto
+		int tamanoPagina = 10; // Tamaño de página por defecto
+
+		// Obtener parámetros de la consulta (si existen)
+		String paginaParam = request.getParameter("pagina");
+		if (paginaParam != null) {
+			try {
+				pagina = Integer.parseInt(paginaParam);
+			} catch (NumberFormatException e) {
+				pagina = 1;
+			}
+		}
+
+		String tamanoPaginaParam = request.getParameter("tamanoPagina");
+		if (tamanoPaginaParam != null) {
+			try {
+				tamanoPagina = Integer.parseInt(tamanoPaginaParam);
+			} catch (NumberFormatException e) {
+				tamanoPagina = 10;
+			}
+		}
+
+		try {
+			// Obtener la lista de bienes paginados y el total de bienes
+			List<Bienes> listaBienes = modelo.listarBienesPorPaginacion(pagina, tamanoPagina);
+			int totalBienes = modelo.contarTotalBienes();
+			int totalPaginas = (int) Math.ceil((double) totalBienes / tamanoPagina);
+
+			// Pasar los datos a la vista
+			request.setAttribute("ListaBienes", listaBienes);
+			request.setAttribute("paginaActual", pagina);
+			request.setAttribute("totalPaginas", totalPaginas);
+			request.setAttribute("tamanoPagina", tamanoPagina);
+
+			// Redirigir al JSP
+			request.getRequestDispatcher("/bienes/ListaBienes.jsp").forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al listar bienes");
+		}
+	}
+
+	public List<Bienes> obtenerBienesPaginados(int pagina, int tamanoPagina) throws SQLException {
+		return modelo.listarBienesPorPaginacion(pagina, tamanoPagina);
 	}
 
 	private void listar(HttpServletRequest request, HttpServletResponse response) {
@@ -237,7 +293,7 @@ public class BienesController extends HttpServlet {
 				request.getSession().setAttribute("fracaso",
 						"El Bien no ha sido ingresado" + "ya hay un autor con este codigo");
 			}
-			
+
 			response.sendRedirect(request.getContextPath() + "/BienesController?op=listar");
 
 		} catch (IOException | SQLException ex) {
@@ -311,6 +367,22 @@ public class BienesController extends HttpServlet {
 			e.printStackTrace();
 		}
 
+	}
+
+	private void buscarBienesxArea(HttpServletRequest request, HttpServletResponse response, String buscar,
+			String area) {
+		try {
+			// Llamar al método modelo con ambos parámetros 'buscar' y 'area'
+			request.setAttribute("ListaBienes", modelo.buscarNombreBienxArea(buscar, area));
+
+			cargarAreas(request, response);
+
+			request.getRequestDispatcher("/bienes/ListaBienes.jsp").forward(request, response);
+		} catch (ServletException | IOException ex) {
+			Logger.getLogger(BienesController.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void obtener(HttpServletRequest request, HttpServletResponse response) {

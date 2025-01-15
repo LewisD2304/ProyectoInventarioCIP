@@ -13,16 +13,32 @@
 <title>PAGINA WEB</title>
 
 
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-	crossorigin="anonymous">
+<link rel="icon"
+	href="/InventariosCIP/resources/logocip-removebg-preview.ico"
+	type="image/x-icon">
 
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-	crossorigin="anonymous"></script>
+
+
+<style>
+/* Aplica Flexbox al body para que el contenido ocupe todo el alto disponible */
+html, body {
+	height: 100%;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+}
+/* El contenedor principal puede crecer */
+.content {
+	flex-grow: 1;
+}
+/* El pie de página siempre se ubica en la parte inferior */
+footer {
+	background-color: #dc3545;
+	color: white;
+	text-align: center;
+	padding: 15px;
+}
+</style>
 <style>
 .card {
 	border-radius: .5rem;
@@ -38,8 +54,49 @@
 }
 </style>
 
+<style>
+.hover-effect {
+	transition: background-color 0.3s ease, box-shadow 0.3s ease, transform
+		0.3s ease;
+}
 
+.hover-effect:hover {
+	background-color: #4CAF50;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	transform: scale(1.05);
+}
+</style>
 
+<style>
+/* Botón personalizado */
+.btn-modern {
+	background-color: #28a745; /* Color verde moderno */
+	color: #fff;
+	font-weight: bold;
+	padding: 10px 20px;
+	border-radius: 25px; /* Bordes redondeados */
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+	transition: all 0.3s ease; /* Efecto de transición */
+}
+
+/* Efecto hover */
+.btn-modern:hover {
+	background-color: #218838; /* Color verde más oscuro */
+	box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Sombra más intensa */
+	transform: translateY(-2px); /* Animación ligera al pasar el cursor */
+	text-decoration: none; /* Evitar subrayado en hover */
+}
+
+/* Ícono SVG */
+.btn-modern .bi {
+	transition: transform 0.3s ease; /* Suavidad al rotar */
+}
+
+/* Rotación ligera del ícono al pasar el cursor */
+.btn-modern:hover .bi {
+	transform: rotate(90deg);
+}
+</style>
 </head>
 
 <body>
@@ -82,9 +139,18 @@
 		</div>
 		<div class="container">
 			<div class="d-flex justify-content-end mb-2">
-				<!-- Botón para abrir el modal -->
-				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-					data-bs-target="#modalAgregarArea">+ Agregar Área</button>
+
+				<a type="button" class="btn btn-success me-2" data-bs-toggle="modal"
+					data-bs-target="#modalAgregarArea"> <svg
+						xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+						fill="currentColor" class="bi bi-plus-square me-2"
+						viewBox="0 0 16 16">
+                <path
+							d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                <path
+							d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+            </svg> Añadir Área
+				</a>
 			</div>
 		</div>
 	</div>
@@ -103,19 +169,25 @@
 				<div class="modal-body">
 					<!-- Formulario para agregar una nueva área -->
 					<form action="<%=url%>AreaController?op=insertar" method="POST">
-						<div class="mb-3">
-							<label for="nombreArea" class="form-label">Nombre del
-								Área</label> <input type="text" class="form-control" id="nombreAreas"
+						<div class="mb-3 form-floating">
+							<input type="text" class="form-control" id="nombreAreas"
 								name="nombreAreas" placeholder="Ingrese el nombre del área"
-								required>
+								required> <label for="nombreAreas" class="form-label">Nombre
+								del Área</label>
 						</div>
-						<button type="submit" class="btn btn-primary">Guardar
-							cambios</button>
+						<div class="col-12 d-flex justify-content-center">
+							<button type="submit" class="btn btn-primary mx-2 hover-effect">Guardar
+								cambios</button>
+						</div>
 					</form>
 				</div>
+
 			</div>
 		</div>
 	</div>
+
+
+
 
 	<br>
 
@@ -174,11 +246,12 @@
 												<td><%=area.getNombreAreas()%></td>
 
 												<td><a href="javascript:void(0)"
-													class="btn btn-outline-info btn-sm p-1"
-													onclick="editar('<%=area.getIdarea()%>', '<%=area.getNombreAreas()%>')">
-														<svg xmlns="http://www.w3.org/2000/svg" width="16"
-															height="16" fill="currentColor"
-															class="bi bi-pencil-square" viewBox="0 0 16 16">
+													class="btn btn-outline-info btn-sm p-1 me-2"
+													onclick="editar('<%=area.getIdarea()%>', '<%=area.getNombreAreas()%>')"
+													title="Modificar"> <svg
+															xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+															fill="currentColor" class="bi bi-pencil-square"
+															viewBox="0 0 16 16">
        <path
 																d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
        <path fill-rule="evenodd"
@@ -202,19 +275,26 @@
 																		action="<%=url%>AreaController?op=modificar"
 																		method="POST">
 																		<input type="hidden" id="idEditarArea" name="id">
-																		<div class="mb-3">
+																		<div class="mb-3 form-floating">
+																			<input type="text" class="form-control"
+																				id="nombreEditarArea" name="nombreAreas"
+																				placeholder="Ingrese el nombre del área" required>
 																			<label for="nombreEditarArea" class="form-label">Nombre
-																				del Área</label> <input type="text" class="form-control"
-																				id="nombreEditarArea" name="nombreAreas" required>
+																				del Área</label>
 																		</div>
-																		<button type="submit" class="btn btn-primary">Guardar
-																			cambios</button>
+																		<div class="col-12 d-flex justify-content-center">
+																			<button type="submit"
+																				class="btn btn-primary mx-2 hover-effect">Guardar
+																				cambios</button>
+																		</div>
 																	</form>
 																</div>
+
 															</div>
 														</div>
 													</div> <a href="javascript:eliminar('<%=area.getIdarea()%>')"
-													class="btn btn-outline-danger btn-sm p-1"> <svg
+													title="Modificar"
+													class="btn btn-outline-danger btn-sm p-1 me-2"> <svg
 															xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 															fill="currentColor" class="bi bi-trash"
 															viewBox="0 0 16 16">
@@ -252,11 +332,12 @@
 			</div>
 		</div>
 	</div>
-
-
-	
-
-
+	<br>
+	<div>
+		<footer class="bg-danger text-white text-center py-3">
+			<p>&copy; 2025 Inventario Web - Todos los derechos reservados.</p>
+		</footer>
+	</div>
 
 </body>
 </html>

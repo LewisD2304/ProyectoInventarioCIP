@@ -56,6 +56,68 @@ public class BienesModel extends Conexion {
 		}
 	}
 
+	public List<Bienes> listarBienesPorPaginacion(int pagina, int tamanoPagina) {
+		List<Bienes> lista = new ArrayList<>();
+		try {
+			int offset = (pagina - 1) * tamanoPagina; // Calculamos el offset basado en la página y el tamaño de página
+
+			String sql = "CALL sp_listarBienesPaginados(?, ?)"; // Procedimiento almacenado para paginación
+
+			this.abrirConexion();
+			cs = conexion.prepareCall(sql);
+			cs.setInt(1, offset); // Offset
+			cs.setInt(2, tamanoPagina); // Tamaño de página
+
+			rs = cs.executeQuery();
+			while (rs.next()) {
+				Bienes bienes = new Bienes();
+				bienes.setIdbienes(rs.getInt("idbienes"));
+				bienes.setVerificar(rs.getInt("verificar"));
+				bienes.setCodigoBien(rs.getString("codigoBien"));
+				bienes.setNombrebien(rs.getString("nombrebien"));
+				bienes.setMarca(rs.getString("marca"));
+				bienes.setModelo(rs.getString("modelo"));
+				bienes.setNroSerie(rs.getString("nroSerie"));
+				bienes.setIdcategorias(rs.getString("nombreCategoria"));
+				bienes.setIdresponsable(rs.getString("nombreResponsable"));
+				bienes.setNombreArea(rs.getString("nombreAreas"));
+				bienes.setIdproveedores(rs.getString("nombreprov"));
+				bienes.setFechaAdquisicion(rs.getString("fechaAdquisicion"));
+				bienes.setValorCompra(rs.getString("valorCompra"));
+				bienes.setDescripcion(rs.getString("descripcion"));
+				bienes.setNombreMedioPago(rs.getString("medioPagoNombre"));
+				bienes.setNumeroMedioPago(rs.getString("medioPagoNumero"));
+				bienes.setNombreTipoComprobante(rs.getString("tipoComprobanteNombre"));
+				bienes.setNumeroComprobante(rs.getString("comprobanteNumero"));
+				bienes.setEstado(rs.getInt("estado"));
+				lista.add(bienes);
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace(); // Manejo de errores
+		} finally {
+			this.cerrarConexion(); // Asegura que la conexión siempre se cierre
+		}
+		return lista;
+	}
+
+	public int contarTotalBienes() {
+		int total = 0;
+		try {
+			String sql = "CALL sp_contarTotalBienes()"; // Procedimiento almacenado que devuelve el total de bienes
+			this.abrirConexion();
+			cs = conexion.prepareCall(sql);
+			rs = cs.executeQuery();
+			if (rs.next()) {
+				total = rs.getInt("total");
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			this.cerrarConexion();
+		}
+		return total;
+	}
+
 	public int insertarBien(Bienes bienes) throws SQLException {
 		try {
 			int filasAfectadas = 0;
@@ -466,6 +528,63 @@ public class BienesModel extends Conexion {
 
 			return null;
 
+		}
+	}
+
+	public List<Bienes> buscarNombreBienxArea(String buscar, String area) throws SQLException {
+		try {
+			List<Bienes> lista = new ArrayList<>();
+			// Consulta SQL con los dos parámetros
+			String sql = "CALL sp_buscarNombreBienxArea(?, ?)";
+			this.abrirConexion();
+			cs = conexion.prepareCall(sql);
+
+			
+			cs.setString(1, area); 
+			cs.setString(2, buscar); 
+
+	
+			rs = cs.executeQuery();
+
+		
+			while (rs.next()) {
+				Bienes bienes = new Bienes();
+				bienes.setIdbienes(rs.getInt("idbienes"));
+				bienes.setVerificar(rs.getInt("verificar"));
+				bienes.setCodigoBien(rs.getString("codigoBien"));
+				bienes.setNombrebien(rs.getString("nombrebien"));
+				bienes.setMarca(rs.getString("marca"));
+				bienes.setModelo(rs.getString("modelo"));
+				bienes.setNroSerie(rs.getString("nroSerie"));
+				bienes.setIdcategorias(rs.getString("nombreCategoria"));
+				bienes.setIdcategoriass(Integer.parseInt(rs.getString("idcategorias")));
+				bienes.setIdresponsables(Integer.parseInt(rs.getString("idresponsable")));
+				bienes.setIdproveedoress(Integer.parseInt(rs.getString("idproveedores")));
+				bienes.setIdresponsable(rs.getString("nombreResponsable"));
+				bienes.setNombreArea(rs.getString("nombreAreas"));
+				bienes.setIdproveedores(rs.getString("nombreprov"));
+				bienes.setFechaAdquisicion(rs.getString("fechaAdquisicion"));
+				bienes.setValorCompra(rs.getString("valorCompra"));
+				bienes.setDescripcion(rs.getString("descripcion"));
+				bienes.setNombreMedioPago(rs.getString("medioPagoNombre"));
+				bienes.setNumeroMedioPago(rs.getString("medioPagoNumero"));
+				bienes.setNombreTipoComprobante(rs.getString("tipoComprobanteNombre"));
+				bienes.setNumeroComprobante(rs.getString("comprobanteNumero"));
+				bienes.setEstado(rs.getInt("estado"));
+
+				// Agregar el bien a la lista
+				lista.add(bienes);
+			}
+
+			// Cerrar la conexión
+			this.cerrarConexion();
+			return lista;
+
+		} catch (Exception ex) {
+			// Manejo de la excepción
+			ex.printStackTrace(); // Imprimir el error para depuración
+			this.cerrarConexion();
+			return null;
 		}
 	}
 

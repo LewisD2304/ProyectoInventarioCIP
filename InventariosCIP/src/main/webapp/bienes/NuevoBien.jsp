@@ -37,6 +37,64 @@
 	integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 	crossorigin="anonymous"></script>
 
+<link rel="icon"
+	href="/InventariosCIP/resources/logocip-removebg-preview.ico"
+	type="image/x-icon">
+
+<style type="text/css">
+body {
+	background-image: url('/InventariosCIP/resources/fondo.jpg');
+	background-size: cover;
+	/* La imagen se ajusta para cubrir toda la pantalla */
+	background-position: center center;
+	/* Centra la imagen en la pantalla */
+	background-attachment: fixed;
+	/* La imagen de fondo no se mueve al hacer scroll */
+	background-repeat: no-repeat; /* No repite la imagen */
+}
+</style>
+
+<style>
+/* Estilos para el contenedor principal */
+.container {
+	background-color: #f0f0f0; /* Color de fondo del contenedor */
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	width: 100%;
+	/* Asegúrate de que el contenedor se extienda completamente */
+	display: flex;
+	flex-direction: column;
+	gap: 15px; /* Espacio entre cada campo */
+}
+/* Estilo para los campos de texto */
+.container .floating {
+	width: 100%; /* Los campos ocuparán todo el ancho disponible */
+}
+
+.container .floating input {
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	padding: 8px 12px;
+	width: 100%;
+}
+
+.container .floating label {
+	color: #333;
+}
+/* Efecto de hover para los botones */
+.hover-effect {
+	transition: background-color 0.3s ease, box-shadow 0.3s ease, transform
+		0.3s ease;
+}
+
+.hover-effect:hover {
+	background-color: #4CAF50;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	transform: scale(1.05);
+}
+</style>
+
 
 <%
 // Recuperamos el valor de "registroExitoso" que el controlador ha establecido
@@ -44,6 +102,7 @@ Boolean registroExitoso = (Boolean) request.getAttribute("registroExitoso");
 %>
 
 <script>
+	document.addEventListener("DOMContentLoaded", function(){
     // Código para habilitar/deshabilitar campos
     const toggleForm = document.getElementById("toggleForm");
     const nombreField = document.getElementById("nombre");
@@ -135,16 +194,16 @@ document.getElementById('miFormulario').addEventListener('submit', function(even
 			<h4>Añada el Comprobante de pago</h4>
 
 			<!-- Button trigger modal -->
-			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+			<button type="button" class="btn btn-primary mx-2 hover-effect" data-bs-toggle="modal"
 				data-bs-target="#exampleModalCenter">+ TIPO DE COMPROBANTE
 			</button>
-
+	
 			<!-- Modal -->
 			<div class="modal fade" id="exampleModalCenter" tabindex="-1"
 				aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content">
-						<div class="modal-header">
+						<div class="modal-header">	
 							<h5 class="modal-title" id="exampleModalCenterTitle">REGISTRE
 								COMPROBANTE</h5>
 							<button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -255,170 +314,194 @@ document.getElementById('miFormulario').addEventListener('submit', function(even
 			<form class="row g-3"></form>
 
 
-			<br> <br>
+			
 
 			<form id="miFormulario" class="row g-3"
 				action="<%=url%>BienesController?op=insertar" method="POST">
-				<div class="col-md-3">
-					<label class="form-label">Codigo Unico del Bien</label> <input
-						type="text" class="form-control" name="codigoBien" id="codigoBien"
-						placeholder="Codigo Unico" required>
+				<div class="row g-3">
+					<div class="col-md-6 col-lg-4">
+						<div class="form-floating">
+							<input type="text" class="form-control" name="codigoBien"
+								id="codigoBien" placeholder="Codigo Unico" required> <label
+								for="codigoBien" class="form-label">Código Único del
+								Bien</label>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-floating">
+							<input type="text" class="form-control" name="nombrebien"
+								id="nombrebien" placeholder="Nombre del Bien" required>
+							<label for="nombrebien" class="form-label">Nombre del
+								Bien</label>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-floating">
+							<input type="text" class="form-control" name="marca" id="marca"
+								placeholder="Marca"> <label for="marca"
+								class="form-label">Marca</label>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-floating">
+							<input type="text" class="form-control" name="modelo" id="modelo"
+								placeholder="Modelo"> <label for="modelo"
+								class="form-label">Modelo</label>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-floating">
+							<input type="text" class="form-control" name="nroSerie"
+								id="nroSerie" placeholder="N° de Serie"> <label
+								for="nroSerie" class="form-label">N° de Serie</label>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-floating">
+							<input type="date" class="form-control" name="fechaAdquisicion"
+								id="fechaAdquisicion" placeholder="Fecha de Adquisicion">
+							<label for="fechaAdquisicion" class="form-label">Fecha de
+								Adquisición</label>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-floating">
+							<input type="text" class="form-control" name="valorCompra"
+								id="valorCompra" placeholder="Valor de compra"> <label
+								for="valorCompra" class="form-label">Valor de compra</label>
+						</div>
+					</div>
+
+					<div class="col-md-2">
+						<div class="form-floating">
+							<select id="estado" name="estado" class="form-select" required>
+								<option value="" disabled selected>Seleccionar Estado</option>
+								<option value="1">ACTIVO</option>
+								<option value="0">INACTIVO</option>
+							</select> <label for="estado" class="form-label">Estado</label>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-floating">
+							<textarea class="form-control" id="descripcion"
+								name="descripcion" rows="3" placeholder="Descripcion"></textarea>
+							<label for="descripcion" class="form-label">Descripción</label>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-floating">
+							<select id="idcategorias" name="idcategoriass"
+								class="form-select">
+								<option value="" selected disabled>Seleccionar
+									Categoría</option>
+								<%
+								List<Categorias> listacategorias = (List<Categorias>) request.getAttribute("NuevoBien");
+								if (listacategorias != null && !listacategorias.isEmpty()) {
+									for (Categorias categoria : listacategorias) {
+								%>
+								<option value="<%=categoria.getIdcategorias()%>"><%=categoria.getNombreCategoria()%></option>
+								<%
+								}
+								} else {
+								%>
+								<option disabled>No hay categorías disponibles</option>
+								<%
+								}
+								%>
+							</select> <label for="idcategorias" class="form-label">Categoría</label>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-floating">
+							<select id="idproveedores" name="idproveedoress"
+								class="form-select">
+								<option value="" selected>Seleccionar</option>
+								<%
+								List<Proveedores> listaproveedor = (List<Proveedores>) request.getAttribute("listaproveedores");
+								if (listaproveedor != null && !listaproveedor.isEmpty()) {
+									for (Proveedores proveedor : listaproveedor) {
+								%>
+								<option value="<%=proveedor.getIdproveedores()%>"><%=proveedor.getNombreprov()%></option>
+								<%
+								}
+								} else {
+								%>
+								<option disabled>No hay proveedores disponibles</option>
+								<%
+								}
+								%>
+							</select> <label for="idproveedores" class="form-label">Proveedores</label>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-floating">
+							<select id="idresponsable" name="idresponsables"
+								class="form-select">
+								<option value="" selected>Seleccionar</option>
+								<%
+								List<Responsable> listaresponsable = (List<Responsable>) request.getAttribute("listaresponsable");
+								if (listaresponsable != null && !listaresponsable.isEmpty()) {
+									for (Responsable responsable : listaresponsable) {
+								%>
+								<option value="<%=responsable.getIdresponsable()%>"><%=responsable.getNombreResponsable()%></option>
+								<%
+								}
+								} else {
+								%>
+								<option disabled>No hay responsables disponibles</option>
+								<%
+								}
+								%>
+							</select> <label for="idresponsable" class="form-label">Responsable</label>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="form-floating">
+							<select id="idcomprobantes" name="idcomprobantes"
+								class="form-select">
+								<option value="" selected>Seleccionar</option>
+								<%
+								List<Comprobantepago> listarComprobante = (List<Comprobantepago>) request.getAttribute("ListaComprobante");
+								if (listarComprobante != null && !listarComprobante.isEmpty()) {
+									for (Comprobantepago comprobante : listarComprobante) {
+								%>
+								<option value="<%=comprobante.getIdcomprobantePago()%>">
+									<%=comprobante.getIdmediopago() != null ? comprobante.getIdmediopago() : "-"%>
+									<%=comprobante.getNumeroMedioPago() != null ? comprobante.getNumeroMedioPago() : "-"%>
+									<%=comprobante.getIdtipoComprobante() != null ? comprobante.getIdtipoComprobante() : "-"%>
+									<%=comprobante.getNumero() != null ? comprobante.getNumero() : "-"%>
+								</option>
+								<%
+								}
+								} else {
+								%>
+								<option disabled>No hay Comprobante de pago disponibles</option>
+								<%
+								}
+								%>
+							</select> <label for="idcomprobantes" class="form-label">Comprobante
+								de Pago</label>
+						</div>
+					</div>
 				</div>
-				<div class="col-md-4">
-					<label class="form-label">Nombre del Bien</label> <input
-						type="text" class="form-control" name="nombrebien" id="nombrebien"
-						placeholder="Nombre del Bien" required>
-				</div>
-				<div class="col-md-4">
-					<label class="form-label">Marca</label> <input type="text"
-						class="form-control" name="marca" id="marca" placeholder="Marca">
-				</div>
-				<div class="col-md-4">
-					<label class="form-label">Modelo</label> <input type="text"
-						class="form-control" name="modelo" id="modelo"
-						placeholder="Modelo">
-				</div>
-				<div class="col-md-4">
-					<label class="form-label">N° de Serie</label> <input type="text"
-						class="form-control" name="nroSerie" id="nroSerie"
-						placeholder="N° de Serie">
-				</div>
-				<div class="col-md-4">
-					<label class="form-label">Fecha de Adquisicion</label> <input
-						type="date" class="form-control" name="fechaAdquisicion"
-						id="fechaAdquisicion" placeholder="Fecha de Adquisicion">
-				</div>
-				<div class="col-md-4">
-					<label class="form-label">Valor de compra</label> <input
-						type="text" class="form-control" name="valorCompra"
-						id="valorCompra" placeholder="Valor de compra">
-				</div>
-				<div class="col-md-2">
-					<label class="form-label">Estado</label> <select id="estado"
-						name="estado" class="form-select" required>
-						<option value="" disabled selected>Seleccionar Estado</option>
-						<option value="1">ACTIVO</option>
-						<option value="0">INACTIVO</option>
-					</select>
-				</div>
-				<div class="col-md-6">
-					<label class="form-label">Descripcion</label>
-					<textarea class="form-control" id="descripcion" name="descripcion"
-						rows="3" placeholder="Descripcion"></textarea>
 
-
-				</div>
-
-				<div class="col-md-4">
-					<label for="idcategorias" class="form-label">Categoría</label> <select
-						id="idcategorias" name="idcategoriass" class="form-select">
-						<option value="" selected disabled>Seleccionar Categoría</option>
-						<%
-						List<Categorias> listacategorias = (List<Categorias>) request.getAttribute("NuevoBien");
-
-						if (listacategorias != null && !listacategorias.isEmpty()) {
-							for (Categorias categoria : listacategorias) {
-						%>
-
-
-						<option value="<%=categoria.getIdcategorias()%>">
-							<%=categoria.getNombreCategoria()%>
-						</option>
-						<%
-						}
-						} else {
-						%>
-						<option disabled>No hay categorías disponibles</option>
-						<%
-						}
-						%>
-					</select>
-				</div>
-				<div class="col-md-4">
-					<label for="idproveedores" class="form-label">Proveedores</label> <select
-						id="idproveedores" name="idproveedoress" class="form-select">
-						<option value="" selected>Seleccionar</option>
-						<%
-						List<Proveedores> listaproveedor = (List<Proveedores>) request.getAttribute("listaproveedores");
-
-						if (listaproveedor != null && !listaproveedor.isEmpty()) {
-							for (Proveedores proveedor : listaproveedor) {
-						%>
-
-
-						<option value="<%=proveedor.getIdproveedores()%>">
-							<%=proveedor.getNombreprov()%>
-						</option>
-						<%
-						}
-						} else {
-						%>
-						<option disabled>No hay proveedores disponibles</option>
-						<%
-						}
-						%>
-					</select>
-				</div>
-				<div class="col-md-4">
-					<label for="idresponsable" class="form-label">Responsable</label> <select
-						id="idresponsable" name="idresponsables" class="form-select">
-						<option value="" selected>Seleccionar</option>
-						<%
-						List<Responsable> listaresponsable = (List<Responsable>) request.getAttribute("listaresponsable");
-
-						if (listaresponsable != null && !listaresponsable.isEmpty()) {
-							for (Responsable responsable : listaresponsable) {
-						%>
-
-
-						<option value="<%=responsable.getIdresponsable()%>">
-							<%=responsable.getNombreResponsable()%>
-						</option>
-						<%
-						}
-						} else {
-						%>
-						<option disabled>No hay responsable disponibles</option>
-						<%
-						}
-						%>
-					</select>
-				</div>
-
-				<div class="col-md-4">
-					<label for="idcomprobantes" class="form-label">Comprobante
-						de Pago</label> <select id="idcomprobantes" name="idcomprobantes"
-						class="form-select">s
-						<option value="" selected>Seleccionar</option>
-						<%
-						List<Comprobantepago> listarComprobante = (List<Comprobantepago>) request.getAttribute("ListaComprobante");
-
-						if (listarComprobante != null && !listarComprobante.isEmpty()) {
-							for (Comprobantepago comprobante : listarComprobante) {
-						%>
-						<option value="<%=comprobante.getIdcomprobantePago()%>">
-							<%=comprobante.getIdmediopago() != null ? comprobante.getIdmediopago() : "-"%>
-							<%=comprobante.getNumeroMedioPago() != null ? comprobante.getNumeroMedioPago() : "-"%>
-							<%=comprobante.getIdtipoComprobante() != null ? comprobante.getIdtipoComprobante() : "-"%>
-							<%=comprobante.getNumero() != null ? comprobante.getNumero() : "-"%>
-						</option>
-						<%
-						}
-						} else {
-						%>
-						<option disabled>No hay Comprobante de pago disponibles</option>
-						<%
-						}
-						%>
-					</select>
-				</div>
-
-				<div class="col-12">
-					<input type="submit" class="btn btn-primary" value="Guardar"
-						name="Guardar"> <a class="btn btn-danger"
+				<div class="col-12 d-flex justify-content-center">
+					<input type="submit" class="btn btn-primary mx-2 hover-effect"
+						value="Guardar" name="Guardar"> <a
+						class="btn btn-danger mx-2 hover-effect"
 						href="<%=url%>BienesController?op=listar">Cancelar</a>
 				</div>
-
 			</form>
 
 

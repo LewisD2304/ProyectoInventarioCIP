@@ -13,16 +13,30 @@
 <title>PAGINA WEB</title>
 
 
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-	crossorigin="anonymous">
+<link rel="icon"
+	href="/InventariosCIP/resources/logocip-removebg-preview.ico"
+	type="image/x-icon">
 
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-	crossorigin="anonymous"></script>
+<style>
+/* Aplica Flexbox al body para que el contenido ocupe todo el alto disponible */
+html, body {
+	height: 100%;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+}
+/* El contenedor principal puede crecer */
+.content {
+	flex-grow: 1;
+}
+/* El pie de página siempre se ubica en la parte inferior */
+footer {
+	background-color: #dc3545;
+	color: white;
+	text-align: center;
+	padding: 15px;
+}
+</style>
 <style>
 .card {
 	border-radius: .5rem;
@@ -38,7 +52,36 @@
 }
 </style>
 
+<style>
+/* Botón personalizado */
+.btn-modern {
+	background-color: #28a745; /* Color verde moderno */
+	color: #fff;
+	font-weight: bold;
+	padding: 10px 20px;
+	border-radius: 25px; /* Bordes redondeados */
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+	transition: all 0.3s ease; /* Efecto de transición */
+}
 
+/* Efecto hover */
+.btn-modern:hover {
+	background-color: #218838; /* Color verde más oscuro */
+	box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Sombra más intensa */
+	transform: translateY(-2px); /* Animación ligera al pasar el cursor */
+	text-decoration: none; /* Evitar subrayado en hover */
+}
+
+/* Ícono SVG */
+.btn-modern .bi {
+	transition: transform 0.3s ease; /* Suavidad al rotar */
+}
+
+/* Rotación ligera del ícono al pasar el cursor */
+.btn-modern:hover .bi {
+	transform: rotate(90deg);
+}
+</style>
 
 </head>
 
@@ -62,23 +105,28 @@
 		<div class="container">
 			<H1>REGISTRO DE PROVEEDORES</H1>
 		</div>
+
 		<div class="container">
 			<div class="d-flex justify-content-end mb-2">
-
-				<a class="btn btn-primary d-flex align-items-center"
+				<a class="btn btn-success d-flex align-items-center btn-modern"
 					href="<%=url%>ProveedoresController?op=agregar"> <svg
-						xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-						fill="currentColor" class="bi bi-plus-square me-1"
+						xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+						fill="currentColor" class="bi bi-plus-square me-2"
 						viewBox="0 0 16 16">
-                    <path
+                <path
 							d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
-                    <path
+                <path
 							d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                </svg> Añadir Proveedores
+            </svg> Añadir Proveedor
 				</a>
-
 			</div>
 		</div>
+	</div>
+
+
+
+
+
 	</div>
 	<nav class="navbar bg-body-tertiary">
 		<div class="container ">
@@ -139,13 +187,13 @@
 															d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" />
 </svg> </a>
 											</p>
-											
+
 
 										</div>
 
 
 
-										<thead class="table">
+										<thead class="table" style="position: sticky; top: 0">
 											<tr>
 												<th>N°</th>
 												<th>NOMBRE</th>
@@ -223,6 +271,6 @@
 	</div>
 
 
-	
+
 </body>
 </html>

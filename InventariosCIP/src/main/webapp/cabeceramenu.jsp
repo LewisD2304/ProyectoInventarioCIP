@@ -59,7 +59,9 @@
 	<div>
 		<nav class="navbar bg-danger" data-bs-theme="dark">
 			<div class="container-fluid">
+
 				<h1 class="navbar-brand">SISTEMA DE INVENTARIO</h1>
+
 				<button class="navbar-toggler" type="button"
 					data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
 					aria-controls="navbarNavDropdown" aria-expanded="false"
@@ -149,7 +151,5 @@
 			</div>
 		</nav>
 	</div>
-
-
 </body>
 </html>

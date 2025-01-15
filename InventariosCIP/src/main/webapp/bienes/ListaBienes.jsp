@@ -280,6 +280,7 @@
 
 <body>
 
+
 	<div>
 		<%@ include file='/cabeceramenu.jsp'%>
 	</div>
@@ -422,8 +423,8 @@
 
 							<div id="tableContainer"
 								style="overflow-y: auto; max-height: 500px; border: 1px;">
-								<table class="table table-borderless mb-0;table table-hover"
-									style="margin-top: -10px; font-size: 12px">
+								<table
+									class="table table-borderless mb-0; table-hover style=margin-top: -10px; font-size: 12px">
 									<thead class="table"
 										style="position: sticky; top: 0; background-color: #ffffff; z-index: 1;">
 										<tr>
@@ -529,6 +530,7 @@
 										</tr>
 										<%
 										}
+
 										} else {
 										%>
 
@@ -555,13 +557,6 @@
 									</tbody>
 
 								</table>
-
-
-
-								</table>
-
-
-
 
 								<div id="descriptionModal" class="modal">
 									<div class="modal-content">
@@ -591,12 +586,15 @@
 
 
 
+
 	<div class="container">
 		<div class="d-flex justify-content-end mb-3"></div>
 	</div>
 
 
 
-
+	<footer class="bg-danger text-white text-center py-3">
+		<p>&copy; 2025 Inventario Web - Todos los derechos reservados.</p>
+	</footer>
 </body>
 </html>

@@ -32,6 +32,21 @@
 }
 </style>
 
+<!-- 
+estilo para botones
+ -->
+<style>
+.hover-effect {
+	transition: background-color 0.3s ease, box-shadow 0.3s ease, transform
+		0.3s ease;
+}
+
+.hover-effect:hover {
+	background-color: #4CAF50;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	transform: scale(1.05);
+}
+</style>
 
 
 </head>
@@ -97,16 +112,19 @@
 				<div class="modal-body">
 					<!-- Formulario para agregar una nueva área -->
 					<form action="<%=url%>AreaController?op=insertar" method="POST">
-						<div class="mb-3">
-							<label for="nombreArea" class="form-label">Nombre del
-								Área</label> <input type="text" class="form-control" id="nombreAreas"
+						<div class="mb-3 form-floating">
+							<input type="text" class="form-control" id="nombreAreas"
 								name="nombreAreas" placeholder="Ingrese el nombre del área"
-								required>
+								required> <label for="nombreAreas" class="form-label">Nombre
+								del Área</label>
 						</div>
-						<button type="submit" class="btn btn-primary">Guardar
-							cambios</button>
+						<div class="col-12 d-flex justify-content-center">
+							<button type="submit" class="btn btn-primary mx-2 hover-effect">Guardar
+								cambios</button>
+						</div>
 					</form>
 				</div>
+
 			</div>
 		</div>
 	</div>
@@ -196,15 +214,21 @@
 																		action="<%=url%>AreaController?op=modificar"
 																		method="POST">
 																		<input type="hidden" id="idEditarArea" name="id">
-																		<div class="mb-3">
+																		<div class="mb-3 form-floating">
+																			<input type="text" class="form-control"
+																				id="nombreEditarArea" name="nombreAreas"
+																				placeholder="Ingrese el nombre del área" required>
 																			<label for="nombreEditarArea" class="form-label">Nombre
-																				del Área</label> <input type="text" class="form-control"
-																				id="nombreEditarArea" name="nombreAreas" required>
+																				del Área</label>
 																		</div>
-																		<button type="submit" class="btn btn-primary">Guardar
-																			cambios</button>
+																		<div class="col-12 d-flex justify-content-center">
+																			<button type="submit"
+																				class="btn btn-primary mx-2 hover-effect">Guardar
+																				cambios</button>
+																		</div>
 																	</form>
 																</div>
+
 															</div>
 														</div>
 													</div> <a href="javascript:eliminar('<%=area.getIdarea()%>')"
@@ -248,7 +272,9 @@
 	</div>
 
 
-
+	<footer class="bg-danger text-white text-center py-3">
+		<p>© 2025 Inventario Web - Todos los derechos reservados.</p>
+	</footer>
 
 
 

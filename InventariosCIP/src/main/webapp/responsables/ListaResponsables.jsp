@@ -32,7 +32,21 @@
 }
 </style>
 
+<!-- 
+estilo para botones
+ -->
+<style>
+.hover-effect {
+	transition: background-color 0.3s ease, box-shadow 0.3s ease, transform
+		0.3s ease;
+}
 
+.hover-effect:hover {
+	background-color: #4CAF50;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	transform: scale(1.05);
+}
+</style>
 
 </head>
 
@@ -79,36 +93,35 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title" id="modalAgregarAreaLabel">Agregar
-							Nueva Responsable</h5>
+							Nuevo Responsable</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
 							aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						<!-- Formulario para agregar una nueva área -->
+						<!-- Formulario para agregar un nuevo Responsable -->
 						<form action="<%=url%>ResponsablesController?op=insertar"
 							method="POST">
-							<div class="mb-3">
-								<label for="nombreResponsable" class="form-label">Nombre</label>
+							<div class="mb-3 form-floating">
 								<input type="text" class="form-control" id="nombreResponsable"
 									name="nombreResponsable"
 									placeholder="Ingrese el nombre del responsable" required>
+								<label for="nombreResponsable" class="form-label">Nombre</label>
 							</div>
 
-							<div class="mb-3">
-								<label for="cargo" class="form-label">Cargo</label> <input
-									type="text" class="form-control" id="cargo" name="cargo"
-									placeholder="Ingrese el cargo" required>
+							<div class="mb-3 form-floating">
+								<input type="text" class="form-control" id="cargo" name="cargo"
+									placeholder="Ingrese el cargo" required> <label
+									for="cargo" class="form-label">Cargo</label>
 							</div>
 
-							<div class="mb-3">
-								<label for="telefono" class="form-label">Contacto</label> <input
-									type="text" class="form-control" id="telefono" name="telefono"
-									placeholder="Ingrese el teléfono" required>
+							<div class="mb-3 form-floating">
+								<input type="text" class="form-control" id="telefono"
+									name="telefono" placeholder="Ingrese el teléfono" required>
+								<label for="telefono" class="form-label">Contacto</label>
 							</div>
-							<div class="col-md-4">
-								<label for="idareas" class="form-label">Area
-									Perteneciente</label> <select id="idareas" name="idareas"
-									class="form-select">
+
+							<div class="mb-3 form-floating">
+								<select id="idareas" name="idareas" class="form-select" required>
 									<option value="" selected>Seleccionar</option>
 									<%
 									List<Area> listaarea = (List<Area>) request.getAttribute("listaArea");
@@ -116,8 +129,6 @@
 									if (listaarea != null && !listaarea.isEmpty()) {
 										for (Area area : listaarea) {
 									%>
-
-
 									<option value="<%=area.getIdarea()%>">
 										<%=area.getNombreAreas()%>
 									</option>
@@ -125,16 +136,20 @@
 									}
 									} else {
 									%>
-									<option disabled>No hay responsable disponibles</option>
+									<option disabled>No hay responsables disponibles</option>
 									<%
 									}
 									%>
-								</select>
+								</select> <label for="idareas" class="form-label">Área
+									Perteneciente</label>
 							</div>
-							<button type="submit" class="btn btn-primary">Guardar
-								cambios</button>
+							<div class="col-12 d-flex justify-content-center">
+								<button type="submit" class="btn btn-primary mx-2 hover-effect">Guardar
+									cambios</button>
+							</div>
 						</form>
 					</div>
+
 				</div>
 			</div>
 		</div>
@@ -311,29 +326,33 @@
 																	<form
 																		action="<%=url%>ResponsablesController?op=modificar"
 																		method="POST">
-																		<div class="mb-3">
-																			<label for="idResponsablee" class="form-label">ID
-																				Responsable</label> <input type="text" class="form-control"
-																				id="idResponsablee" name="idResponsablee" readonly>
-																		</div>
-																		<div class="mb-3">
-																			<label for="nombreResponsablee" class="form-label">Nombre
-																				Responsable</label> <input type="text" class="form-control"
-																				id="nombreResponsablee" name="nombreResponsablee"
-																				required>
-																		</div>
-																		<div class="mb-3">
-																			<label for="cargoE" class="form-label">Cargo</label>
-																			<input type="text" class="form-control" id="cargoE"
-																				name="cargoE" required>
-																		</div>
-																		<div class="mb-3">
-																			<label for="telefonoE" class="form-label">Teléfono</label>
+																		<div class="mb-3 form-floating">
 																			<input type="text" class="form-control"
-																				id="telefonoE" name="telefonoE">
+																				id="idResponsablee" name="idResponsablee" readonly>
+																			<label for="idResponsablee" class="form-label">ID
+																				Responsable</label>
 																		</div>
-																		<div class="col-md-4">
-																			<label for="idareaE" class="form-label">Área</label>
+
+																		<div class="mb-3 form-floating">
+																			<input type="text" class="form-control"
+																				id="nombreResponsablee" name="nombreResponsablee"
+																				required> <label for="nombreResponsablee"
+																				class="form-label">Nombre Responsable</label>
+																		</div>
+
+																		<div class="mb-3 form-floating">
+																			<input type="text" class="form-control" id="cargoE"
+																				name="cargoE" required> <label for="cargoE"
+																				class="form-label">Cargo</label>
+																		</div>
+
+																		<div class="mb-3 form-floating">
+																			<input type="text" class="form-control"
+																				id="telefonoE" name="telefonoE"> <label
+																				for="telefonoE" class="form-label">Teléfono</label>
+																		</div>
+
+																		<div class="mb-3 form-floating">
 																			<select id="idareaE" name="idareaE"
 																				class="form-select">
 																				<option value="" selected>Seleccionar</option>
@@ -343,8 +362,6 @@
 																				if (listaareae != null && !listaareae.isEmpty()) {
 																					for (Area areae : listaareae) {
 																				%>
-
-
 																				<option value="<%=areae.getIdarea()%>">
 																					<%=areae.getNombreAreas()%>
 																				</option>
@@ -352,17 +369,21 @@
 																				}
 																				} else {
 																				%>
-																				<option disabled>No hay responsable
+																				<option disabled>No hay responsables
 																					disponibles</option>
 																				<%
 																				}
 																				%>
-																			</select>
+																			</select> <label for="idareaE" class="form-label">Área</label>
 																		</div>
-																		<button type="submit" class="btn btn-primary">Guardar
-																			cambios</button>
+																		<div class="col-12 d-flex justify-content-center">
+																			<button type="submit"
+																				class="btn btn-primary mx-2 hover-effect">Guardar
+																				cambios</button>
+																		</div>
 																	</form>
 																</div>
+
 															</div>
 														</div>
 													</div> <a
@@ -408,6 +429,9 @@
 			</div>
 		</div>
 	</div>
+	<footer class="bg-danger text-white text-center py-3">
+		<p>© 2025 Inventario Web - Todos los derechos reservados.</p>
+	</footer>
 
 </body>
 </html>

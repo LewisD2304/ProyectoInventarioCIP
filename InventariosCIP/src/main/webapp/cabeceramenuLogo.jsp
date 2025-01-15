@@ -70,7 +70,6 @@
 						</a></li>
 
 
-
 						<li class="btn-group dropend me-3"><a class="btn btn-danger"
 							aria-current="page" href="BienesController?op=listar"> <svg
 									xmlns="http://www.w3.org/2000/svg" width="16" height="16"

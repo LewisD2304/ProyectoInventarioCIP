@@ -215,7 +215,9 @@
 			</div>
 		</div>
 	</div>
-
+<footer class="bg-danger text-white text-center py-3">
+		<p>© 2025 Inventario Web - Todos los derechos reservados.</p>
+	</footer>
 
 
 </body>
